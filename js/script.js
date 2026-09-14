@@ -62,7 +62,6 @@ const ORGS = {
     'fw': { name: 'Feuerwehr', color: 'var(--org-fw)', funfname: 'Florian' },
     'rd': { name: 'Rettungsdienst', color: 'var(--org-rd)', funfname: 'Rotkreuz' },
     'pol': { name: 'Polizei', color: 'var(--org-pol)', funfname: 'Peter' },
-    'bpol': { name: 'bpol', color: 'var(--org-bp-pol)', funfname: 'bp FuStW' },		
     'thw': { name: 'THW', color: 'var(--org-thw)', funfname: 'Heros' },
     'dlrg': { name: 'DLRG', color: 'var(--org-dlrg)', funfname: 'Pelikan' },
     'bw': { name: 'Bergwacht', color: 'var(--org-bw)', funfname: 'Bergwacht' },
@@ -72,13 +71,10 @@ const ORGS = {
 };
 
 const VEHICLES = {
-    // FEUERWEHR
     'KdoW': { name: 'KdoW', bw_name: '10', org: 'fw', speed: 90, crew: 1, reqQual: null, price: 40000, upkeep: 100 },
     'ELW1': { name: 'ELW 1', bw_name: '11', org: 'fw', speed: 85, crew: 2, reqQual: 'Zugführer', price: 80000, upkeep: 150 },
     'ELW2': { name: 'ELW 2', bw_name: '12', org: 'fw', speed: 75, crew: 3, reqQual: 'Zugführer', price: 150000, upkeep: 250 },
     'MTF': { name: 'MTF', bw_name: '19', org: 'fw', speed: 85, crew: 4, reqQual: null, price: 35000, upkeep: 80 },
-    
-    // NEU: Upgrades in HLF20 und LF10 integriert
     'HLF20': { 
         name: 'HLF 20', bw_name: '46', org: 'fw', speed: 70, crew: 9, reqQual: 'Atemschutz', price: 350000, upkeep: 500,
         possibleUpgrades: {
@@ -152,15 +148,6 @@ const VEHICLES = {
     'BeDoKw': { name: 'BeDoKw', bw_name: 'BeDoKw', org: 'pol', speed: 80, crew: 4, reqQual: null, price: 150000, upkeep: 200 },
     'Krad': { name: 'Krad', bw_name: 'Krad', org: 'pol', speed: 110, crew: 1, reqQual: null, price: 25000, upkeep: 50 },
     'Zivil': { name: 'Zivil (Kripo)', bw_name: 'Kripo', org: 'pol', speed: 95, crew: 2, reqQual: null, price: 45000, upkeep: 100 },
-    // BUNESPOLIZEI
-    'FuStWB': { name: 'BP-FuStW', bw_name: 'Streife', org: 'bpol', speed: 95, crew: 2, reqQual: null, img: 'img/image-removebg-preview.jpg', price: 60000, upkeep: 150 },
-    'GefKwB': { name: 'GefKw', bw_name: 'GefKw', org: 'bpol', speed: 75, crew: 2, reqQual: null, price: 80000, upkeep: 150 },
-    'GruKwB': { name: 'GruKw', bw_name: 'GruKw', org: 'bpol', speed: 75, crew: 9, reqQual: null, price: 120000, upkeep: 250 },
-    'WaWeB': { name: 'WaWe 10000', bw_name: 'WaWe', org: 'bpol', speed: 55, crew: 5, reqQual: 'Sonderfahrzeug-Polizei', price: 800000, upkeep: 1000 },
-    'BeDoKwB': { name: 'BeDoKw', bw_name: 'BeDoKw', org: 'bpol', speed: 80, crew: 4, reqQual: null, price: 150000, upkeep: 200 },
-    'KradB': { name: 'BP-Krad', bw_name: 'Krad', org: 'bpol', speed: 110, crew: 1, reqQual: null, price: 25000, upkeep: 50 },
-    'ZivilB': { name: 'BP-Zivil (Kripo)', bw_name: 'Kripo', org: 'bpol', speed: 95, crew: 2, reqQual: null, price: 45000, upkeep: 100 },
-    'DHuFu': { name: 'BP-DHuFu', bw_name: 'Streife', org: 'bpol', speed: 95, crew: 2, reqQual: null, img: 'img/image-removebg-preview.jpg', price: 60000, upkeep: 150 },
 
     // THW
     'MTWTZ': { name: 'MTW-TZ', bw_name: '86', org: 'thw', speed: 80, crew: 4, reqQual: null, price: 45000, upkeep: 80 },
@@ -198,7 +185,6 @@ const STATION_TYPES = {
     'luft_hub': { name: 'Luftrettungszentrum', org: 'luft', icon: '🚁', delay: false, initStaff: 10, vehicles: ['RTH', 'ITH'], buildCost: 2500000 },
     'pol_wache': { name: 'Polizeirevier', org: 'pol', icon: '🚓', delay: false, initStaff: 30, vehicles: ['FuStW', 'Krad', 'Zivil'], buildCost: 300000 },
     'pol_bepo': { name: 'Bereitschaftspolizei', org: 'pol', icon: '🛡️', delay: false, initStaff: 60, vehicles: ['FuStW', 'GefKw', 'GruKw', 'WaWe', 'BeDoKw'], buildCost: 500000 },
-    'bpol_wache': { name: 'Bundespolizei', org: 'bpol', icon: '🛡️', delay: false, initStaff: 60, vehicles: ['FuStWB', 'KradB', 'ZivilB', 'DHuFuB', 'BeDoKwB'], buildCost: 500000 },
     'seg_wache': { name: 'KatS / SEG', org: 'seg', icon: '⛺', delay: true, initStaff: 25, vehicles: ['KTWB', 'KTW4', 'GWSan', 'GWBetreuung', 'MTWBt', 'KdoW'], buildCost: 150000 },
     'thw_ov': { name: 'THW Ortsverband', org: 'thw', icon: '⚙️', delay: true, initStaff: 35, vehicles: ['MTWTZ', 'GKW', 'MzGW', 'LKWK9'], buildCost: 250000 },
     'dlrg_wache': { name: 'DLRG Station', org: 'dlrg', icon: '🌊', delay: true, initStaff: 20, vehicles: ['MTWWR', 'GWWR', 'GWTauchen', 'RTB'], buildCost: 150000 },
@@ -243,33 +229,18 @@ const PRESET_STATIONS = [
 ];
 
 const MISSIONS = [
-	// --- FW ---
     { name: 'Mülleimerbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Laubbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Fahrzeugbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Müllcontainerbrand', reqs: {'LF_Group': 1, 'TLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Heckenbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Wohnungsbrand', reqs: {'LF_Group': 3, 'DLK_Group': 1, 'ELW_Group': 1}, time: 800, orgs: ['fw'], reward: 1000, xpReward: 25 },
-	{ name: 'Kellerbrand', reqs: {'LF_Group': 3, 'DLK_Group': 1, 'ELW_Group': 1}, time: 800, orgs: ['fw'], reward: 1000, xpReward: 25 },
     { name: 'Brennender PKW', reqs: {'LF_Group': 1, 'FuStW': 1}, time: 400, orgs: ['fw', 'pol'], reward: 1800, xpReward: 35 },
     { name: 'Zimmerbrand', reqs: {'ELW_Group': 1, 'LF_Group': 2, 'DLK_Group': 1, 'RTW_Group': 1, 'FuStW': 1}, time: 800, orgs: ['fw', 'rd'], reward: 4500, xpReward: 100 },
     { name: 'Dachstuhlbrand', reqs: {'ELW_Group': 1, 'LF_Group': 3, 'DLK_Group': 2, 'GWA': 1, 'RTW_Group': 1, 'FuStW': 2}, time: 1200, orgs: ['fw', 'rd'], reward: 8500, xpReward: 180 },
-	{ name: 'Industriebrand', reqs: {'ELW_Group': 1, 'LF_Group': 10, 'DLK_Group': 2, 'GWA': 1, 'RTW_Group': 3, 'FuStW': 4, 'GWMESS': 1}, time: 1200, orgs: ['fw', 'rd'], reward: 8500, xpReward: 180 },
     { name: 'Waldbrand', reqs: {'ELW_Group': 1, 'LF_Group': 2, 'TLF_Group': 2, 'GWL_Group': 1}, time: 1500, orgs: ['fw'], reward: 7000, xpReward: 150 },
-
-	// --- FW TH ---	
     { name: 'Verkehrsunfall (Eingeklemmt)', reqs: {'LF_Group': 1, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 2}, time: 900, orgs: ['fw', 'rd', 'pol'], reward: 5500, xpReward: 120 },
-	// --- RD ---		
     { name: 'Herzinfarkt', reqs: {'RTW_Group': 1, 'NEF': 1}, time: 600, orgs: ['rd'], reward: 2500, xpReward: 50 },
     { name: 'Krankentransport', reqs: {'KTW': 1}, time: 400, orgs: ['rd'], reward: 600, xpReward: 10 },
-    { name: 'MANV 25 (Busunfall)', reqs: {'ELW2': 1, 'LF_Group': 3, 'RW_Group': 1, 'RTW_Group': 6, 'KTWB': 2, 'NEF': 4, 'LNA': 1, 'OrgL': 1, 'GWSan': 1, 'FuStW': 4}, time: 2500, orgs: ['fw', 'rd', 'seg', 'pol'], reward: 28000, xpReward: 600 },	
-	// --- POL ---	
     { name: 'Schlägerei (Groß)', reqs: {'FuStW': 4, 'GruKw': 1, 'RTW_Group': 2}, time: 700, orgs: ['pol', 'rd'], reward: 3500, xpReward: 80 },
     { name: 'Demonstration eskaliert', reqs: {'FuStW': 5, 'GefKw': 2, 'GruKw': 3, 'WaWe': 1, 'BeDoKw': 1, 'GWSan': 1, 'RTW_Group': 2}, time: 1200, orgs: ['pol', 'seg'], reward: 12000, xpReward: 250 },
-	// --- THW ---		
-    { name: 'Gebäudeeinsturz', reqs: {'ELW1': 1, 'LF_Group': 2, 'RW_Group': 1, 'MTWTZ': 1, 'GKW': 1, 'MzGW': 1, 'RTW_Group': 3, 'NEF': 2, 'FuStW': 2}, time: 1800, orgs: ['fw', 'thw', 'rd'], reward: 22000, xpReward: 450 },
-	// --- BPOL ---
-	{ name: 'Person auf Gleis', reqs: {'FuStWB': 1}, time: 300, orgs: ['bpol'], reward: 800, xpReward: 15 }
+    { name: 'MANV 25 (Busunfall)', reqs: {'ELW2': 1, 'LF_Group': 3, 'RW_Group': 1, 'RTW_Group': 6, 'KTWB': 2, 'NEF': 4, 'LNA': 1, 'OrgL': 1, 'GWSan': 1, 'FuStW': 4}, time: 2500, orgs: ['fw', 'rd', 'seg', 'pol'], reward: 28000, xpReward: 600 },
+    { name: 'Gebäudeeinsturz', reqs: {'ELW1': 1, 'LF_Group': 2, 'RW_Group': 1, 'MTWTZ': 1, 'GKW': 1, 'MzGW': 1, 'RTW_Group': 3, 'NEF': 2, 'FuStW': 2}, time: 1800, orgs: ['fw', 'thw', 'rd'], reward: 22000, xpReward: 450 }
 ];
 
 const AAO_LIST = [
@@ -283,8 +254,11 @@ const AAO_LIST = [
 ];
 
 // --- STATE & ECONOMY ---
-let simTime = new Date(); simTime.setHours(12, 0, 0, 0); 
+// NEU: Live-Zeit Standard
+let simTime = new Date(); 
+let isLiveTime = true;
 let timeScale = 1; let lastRealTime = performance.now();
+
 let stations = []; let missions = []; let globalVehicles = []; 
 let buildMode = null; let stIdCtr = 1; let vIdCtr = 1; let mIdCtr = 1;
 let activeDispatchMissionId = null;
@@ -293,7 +267,7 @@ let lastAutoHireSimMs = simTime.getTime();
 
 let settings = { design: 'standard', theme: 'dark', sound: 'on', mapstyle: 'streets' };
 
-let credits = 25000000;
+let credits = 250000;
 let xp = 0;
 
 function updateEconomyUI() {
@@ -440,12 +414,25 @@ function applyTheme() {
 }
 
 // --- TIME & LOOP ---
+
+// NEU: Live-Zeit Funktionen
+function setLiveTime() {
+    timeScale = 1;
+    isLiveTime = true;
+    simTime = new Date(); // Erzwinge echte aktuelle Zeit
+    document.querySelectorAll('.time-controls .btn-nav').forEach(b => b.classList.remove('active'));
+    document.getElementById('ts-live').classList.add('active');
+    showToast(`Uhrzeit: Echtzeit (Live)`);
+}
+
 function setTimeScale(s) {
     timeScale = s;
+    isLiveTime = false;
     document.querySelectorAll('.time-controls .btn-nav').forEach(b => b.classList.remove('active'));
     document.getElementById('ts-' + s).classList.add('active');
     showToast(`Zeitbeschleunigung: ${s}x`);
 }
+
 function formatTime(d) {
     return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0') + ':' + d.getSeconds().toString().padStart(2, '0');
 }
@@ -453,7 +440,14 @@ function formatTime(d) {
 function gameLoop(currentTime) {
     let deltaReal = currentTime - lastRealTime; lastRealTime = currentTime;
     let deltaSim = deltaReal * timeScale;
-    simTime = new Date(simTime.getTime() + deltaSim);
+    
+    // Wenn Live, immer exakt die echte PC-Zeit nehmen
+    if(isLiveTime) {
+        simTime = new Date();
+    } else {
+        simTime = new Date(simTime.getTime() + deltaSim);
+    }
+    
     document.getElementById('clock').innerText = formatTime(simTime);
     
     updateWeather();
@@ -731,7 +725,7 @@ function buyVehicle(type) {
         status: 'free', lat: st.lat, lng: st.lng, missionId: null, 
         travelStartMs: 0, travelDurationMs: 0, marker: null, crewReadyMs: 0,
         route: null,
-        installedUpgrades: [] // NEU: Upgrade Speicher
+        installedUpgrades: []
     };
     globalVehicles.push(v); st.vehicles.push(v.id);
     renderStationVehicles(st); updateStationList(); showToast(`${VEHICLES[type].name} gekauft! (-${price.toLocaleString('de-DE')} Cr)`);
@@ -804,7 +798,7 @@ async function buildPresetStation(presetName) {
             id: vIdCtr++, stId: st.id, type: vType, number: countOfSameType + 1,
             status: 'free', lat: st.lat, lng: st.lng, missionId: null,
             travelStartMs: 0, travelDurationMs: 0, marker: null, crewReadyMs: 0, route: null,
-            installedUpgrades: [] // NEU: Upgrade Speicher
+            installedUpgrades: []
         };
         globalVehicles.push(v);
         st.vehicles.push(v.id);
@@ -916,7 +910,6 @@ setInterval(() => { if(document.getElementById('fms-modal').style.display === 'f
 // --- MISSIONS ---
 setInterval(spawnMission, 25000); 
 
-// NEU: Upgrade Hilfsfunktion
 function vehicleSatisfiesReq(v, reqKey) {
     if (GROUPS[reqKey] && GROUPS[reqKey].includes(v.type)) return true;
     if (v.type === reqKey) return true;
@@ -932,7 +925,6 @@ function vehicleSatisfiesReq(v, reqKey) {
     return false;
 }
 
-// ÜBERARBEITET: Nutzt nun die Hilfsfunktion
 function fleetHasReqs(reqs) {
     for(let reqKey in reqs) {
         let needed = reqs[reqKey]; 
@@ -1128,7 +1120,6 @@ function renderDispatchVehicleList(m) {
     });
 }
 
-// ÜBERARBEITET: Nutzt nun die Hilfsfunktion für Upgrades
 function triggerAAO(reqs) {
     const checkboxes = document.querySelectorAll('.disp-cb:not(:disabled)');
     checkboxes.forEach(cb => { cb.checked = false; cb.parentElement.classList.remove('selected'); });
@@ -1306,7 +1297,6 @@ function updateVehicles(deltaSimMs) {
     });
 }
 
-// ÜBERARBEITET: Berücksichtigt Upgrades bei der Fahrzeugberechnung am Einsatzort
 function checkMissionReqs(m) {
     let fulfilled = true;
     let missingArr = [];
@@ -1436,7 +1426,14 @@ function loadGame() {
         
         stations = data.stations || []; missions = data.missions || []; globalVehicles = data.vehicles || [];
         stIdCtr = data.counters.stIdCtr; vIdCtr = data.counters.vIdCtr; mIdCtr = data.counters.mIdCtr;
-        simTime = new Date(data.simTime); if(data.settings) settings = data.settings;
+        
+        // Sim Time laden und Button visuell umstellen (da wir aus Speicher laden, beenden wir Live-Zeit)
+        simTime = new Date(data.simTime); 
+        isLiveTime = false;
+        document.querySelectorAll('.time-controls .btn-nav').forEach(b => b.classList.remove('active'));
+        document.getElementById('ts-1').classList.add('active'); // Setzt Anzeige auf 1x
+
+        if(data.settings) settings = data.settings;
         if(data.einsatzstop !== undefined && data.einsatzstop !== einsatzstop) toggleEinsatzstop();
         
         if(data.credits !== undefined) credits = data.credits;
@@ -1445,7 +1442,7 @@ function loadGame() {
         stations.forEach(s => createStationMarker(s));
         missions.forEach(m => { if(m.status !== 'done') createMissionMarker(m); });
         globalVehicles.forEach(v => { 
-            if(!v.installedUpgrades) v.installedUpgrades = []; // Verhindert Fehler bei alten Spielständen
+            if(!v.installedUpgrades) v.installedUpgrades = [];
             if(v.status === 'en_route_mission' || v.status === 'en_route_home' || v.status === 'waiting_crew' || v.status === 'transport_hospital' || v.status === 'at_hospital') {
                 if(!v.route) v.route = prepareRouteData([[v.lat, v.lng], [v.targetLat || v.lat, v.targetLng || v.lng]]);
                 createVehicleMarker(v); 
@@ -1464,7 +1461,6 @@ function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 // --- VEHICLE EDIT & UPGRADE SYSTEM ---
 let currentEditVehImageBase64 = null;
 
-// NEU: Kauf-Funktion für Upgrades
 function buyUpgrade(vId, upgKey) {
     const v = globalVehicles.find(x => x.id === vId);
     const vDef = VEHICLES[v.type];
