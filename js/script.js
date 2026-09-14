@@ -245,6 +245,7 @@ const PRESET_STATIONS = [
 const MISSIONS = [
 	// --- FW ---
     { name: 'Mülleimerbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
+	{ name: 'Laubbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
 	{ name: 'Fahrzeugbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
 	{ name: 'Müllcontainerbrand', reqs: {'LF_Group': 1, 'TLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
 	{ name: 'Heckenbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
