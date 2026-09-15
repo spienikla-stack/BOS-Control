@@ -264,7 +264,7 @@ const MISSIONS = [
 	{ name: 'Baum auf Staße', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
 	{ name: 'Kleiner Ast auf Straße', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
 	{ name: 'Türöffnung', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Person hinter Tür', reqs: {'HLF_Group': 1, 'RTW_Group':1}, time: 300, orgs: ['fw', 'rd], reward: 800, xpReward: 15 }
+	{ name: 'Person hinter Tür', reqs: {'HLF_Group': 1, 'RTW_Group':1}, time: 300, orgs: ['fw', 'rd', 'Pol], reward: 800, xpReward: 15 }
 	// --- RD ---		
     { name: 'Herzinfarkt', reqs: {'RTW_Group': 1, 'NEF': 1}, time: 600, orgs: ['rd'], reward: 2500, xpReward: 50 },
     { name: 'Krankentransport', reqs: {'KTW': 1}, time: 400, orgs: ['rd'], reward: 600, xpReward: 10 },
