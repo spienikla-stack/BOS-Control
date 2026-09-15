@@ -259,6 +259,14 @@ const MISSIONS = [
 
 	// --- FW TH ---	
     { name: 'Verkehrsunfall (Eingeklemmt)', reqs: {'LF_Group': 1, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 2}, time: 900, orgs: ['fw', 'rd', 'pol'], reward: 5500, xpReward: 120 },
+	{ name: 'Kleine Ölspur', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
+	{ name: 'PKW verliert Betriebsstoffe', reqs: {'HLF_Group': 2}, time: 400, orgs: ['fw'], reward: 850, xpReward: 20 },
+	{ name: 'Baum auf Staße', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
+	{ name: 'Kleiner Ast auf Straße', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
+	{ name: 'Türöffnung', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
+	{ name: 'Person hinter Tür', reqs: {'HLF_Group': 1, 'RTW_Group':1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 }
+	
+	
 	// --- RD ---		
     { name: 'Herzinfarkt', reqs: {'RTW_Group': 1, 'NEF': 1}, time: 600, orgs: ['rd'], reward: 2500, xpReward: 50 },
     { name: 'Krankentransport', reqs: {'KTW': 1}, time: 400, orgs: ['rd'], reward: 600, xpReward: 10 },
