@@ -62,8 +62,6 @@ const ORGS = {
     'fw': { name: 'Feuerwehr', color: 'var(--org-fw)', funfname: 'Florian' },
     'rd': { name: 'Rettungsdienst', color: 'var(--org-rd)', funfname: 'Rotkreuz' },
     'pol': { name: 'Polizei', color: 'var(--org-pol)', funfname: 'Peter' },
-    'bpol': { name: 'bpol', color: 'var(--org-bp-pol)', funfname: 'bp FuStW' },	
-	
     'thw': { name: 'THW', color: 'var(--org-thw)', funfname: 'Heros' },
     'dlrg': { name: 'DLRG', color: 'var(--org-dlrg)', funfname: 'Pelikan' },
     'bw': { name: 'Bergwacht', color: 'var(--org-bw)', funfname: 'Bergwacht' },
@@ -73,13 +71,10 @@ const ORGS = {
 };
 
 const VEHICLES = {
-    // FEUERWEHR
     'KdoW': { name: 'KdoW', bw_name: '10', org: 'fw', speed: 90, crew: 1, reqQual: null, price: 40000, upkeep: 100 },
     'ELW1': { name: 'ELW 1', bw_name: '11', org: 'fw', speed: 85, crew: 2, reqQual: 'Zugführer', price: 80000, upkeep: 150 },
     'ELW2': { name: 'ELW 2', bw_name: '12', org: 'fw', speed: 75, crew: 3, reqQual: 'Zugführer', price: 150000, upkeep: 250 },
     'MTF': { name: 'MTF', bw_name: '19', org: 'fw', speed: 85, crew: 4, reqQual: null, price: 35000, upkeep: 80 },
-    
-    // NEU: Upgrades in HLF20 und LF10 integriert
     'HLF20': { 
         name: 'HLF 20', bw_name: '46', org: 'fw', speed: 70, crew: 9, reqQual: 'Atemschutz', price: 350000, upkeep: 500,
         possibleUpgrades: {
@@ -153,15 +148,6 @@ const VEHICLES = {
     'BeDoKw': { name: 'BeDoKw', bw_name: 'BeDoKw', org: 'pol', speed: 80, crew: 4, reqQual: null, price: 150000, upkeep: 200 },
     'Krad': { name: 'Krad', bw_name: 'Krad', org: 'pol', speed: 110, crew: 1, reqQual: null, price: 25000, upkeep: 50 },
     'Zivil': { name: 'Zivil (Kripo)', bw_name: 'Kripo', org: 'pol', speed: 95, crew: 2, reqQual: null, price: 45000, upkeep: 100 },
-    // BUNESPOLIZEI
-    'FuStW': { name: 'BP-FuStW', bw_name: 'Streife', org: 'bpol', speed: 95, crew: 2, reqQual: null, img: 'img/image-removebg-preview.jpg', price: 60000, upkeep: 150 },
-    'GefKw': { name: 'GefKw', bw_name: 'GefKw', org: 'bpol', speed: 75, crew: 2, reqQual: null, price: 80000, upkeep: 150 },
-    'GruKw': { name: 'GruKw', bw_name: 'GruKw', org: 'bpol', speed: 75, crew: 9, reqQual: null, price: 120000, upkeep: 250 },
-    'WaWe': { name: 'WaWe 10000', bw_name: 'WaWe', org: 'bpol', speed: 55, crew: 5, reqQual: 'Sonderfahrzeug-Polizei', price: 800000, upkeep: 1000 },
-    'BeDoKw': { name: 'BeDoKw', bw_name: 'BeDoKw', org: 'bpol', speed: 80, crew: 4, reqQual: null, price: 150000, upkeep: 200 },
-    'Krad': { name: 'BP-Krad', bw_name: 'Krad', org: 'bpol', speed: 110, crew: 1, reqQual: null, price: 25000, upkeep: 50 },
-    'Zivil': { name: 'BP-Zivil (Kripo)', bw_name: 'Kripo', org: 'bpol', speed: 95, crew: 2, reqQual: null, price: 45000, upkeep: 100 },
-    'DHuFu': { name: 'BP-DHuFu', bw_name: 'Streife', org: 'bpol', speed: 95, crew: 2, reqQual: null, img: 'img/image-removebg-preview.jpg', price: 60000, upkeep: 150 },
 
     // THW
     'MTWTZ': { name: 'MTW-TZ', bw_name: '86', org: 'thw', speed: 80, crew: 4, reqQual: null, price: 45000, upkeep: 80 },
@@ -199,7 +185,6 @@ const STATION_TYPES = {
     'luft_hub': { name: 'Luftrettungszentrum', org: 'luft', icon: '🚁', delay: false, initStaff: 10, vehicles: ['RTH', 'ITH'], buildCost: 2500000 },
     'pol_wache': { name: 'Polizeirevier', org: 'pol', icon: '🚓', delay: false, initStaff: 30, vehicles: ['FuStW', 'Krad', 'Zivil'], buildCost: 300000 },
     'pol_bepo': { name: 'Bereitschaftspolizei', org: 'pol', icon: '🛡️', delay: false, initStaff: 60, vehicles: ['FuStW', 'GefKw', 'GruKw', 'WaWe', 'BeDoKw'], buildCost: 500000 },
-    'bpol_wache': { name: 'Bundespolizei', org: 'bpol', icon: '🛡️', delay: false, initStaff: 60, vehicles: ['FuStW', 'Krad', 'Zivil', 'DHuFu', 'BeDoKw'], buildCost: 500000 },
     'seg_wache': { name: 'KatS / SEG', org: 'seg', icon: '⛺', delay: true, initStaff: 25, vehicles: ['KTWB', 'KTW4', 'GWSan', 'GWBetreuung', 'MTWBt', 'KdoW'], buildCost: 150000 },
     'thw_ov': { name: 'THW Ortsverband', org: 'thw', icon: '⚙️', delay: true, initStaff: 35, vehicles: ['MTWTZ', 'GKW', 'MzGW', 'LKWK9'], buildCost: 250000 },
     'dlrg_wache': { name: 'DLRG Station', org: 'dlrg', icon: '🌊', delay: true, initStaff: 20, vehicles: ['MTWWR', 'GWWR', 'GWTauchen', 'RTB'], buildCost: 150000 },
@@ -243,38 +228,20 @@ const PRESET_STATIONS = [
     { name: "THW OV Schorndorf", type: "thw_ov", lat: 48.8020, lng: 9.5150, town: "Schorndorf", initVehs: ["MTWTZ", "GKW", "MzGW"] }
 ];
 
-const MISSIONS = [
-	// --- FW ---
-    { name: 'Mülleimerbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Fahrzeugbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Müllcontainerbrand', reqs: {'LF_Group': 1, 'TLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Heckenbrand', reqs: {'LF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Wohnungsbrand', reqs: {'LF_Group': 3, 'DLK_Group': 1, 'ELW_Group': 1}, time: 800, orgs: ['fw'], reward: 1000, xpReward: 25 },
-	{ name: 'Kellerbrand', reqs: {'LF_Group': 3, 'DLK_Group': 1, 'ELW_Group': 1}, time: 800, orgs: ['fw'], reward: 1000, xpReward: 25 },
-    { name: 'Brennender PKW', reqs: {'LF_Group': 1, 'FuStW': 1}, time: 400, orgs: ['fw', 'pol'], reward: 1800, xpReward: 35 },
-    { name: 'Zimmerbrand', reqs: {'ELW_Group': 1, 'LF_Group': 2, 'DLK_Group': 1, 'RTW_Group': 1, 'FuStW': 1}, time: 800, orgs: ['fw', 'rd'], reward: 4500, xpReward: 100 },
-    { name: 'Dachstuhlbrand', reqs: {'ELW_Group': 1, 'LF_Group': 3, 'DLK_Group': 2, 'GWA': 1, 'RTW_Group': 1, 'FuStW': 2}, time: 1200, orgs: ['fw', 'rd'], reward: 8500, xpReward: 180 },
-	{ name: 'Industriebrand', reqs: {'ELW_Group': 1, 'LF_Group': 10, 'DLK_Group': 2, 'GWA': 1, 'RTW_Group': 3, 'FuStW': 4, 'GWMESS': 1}, time: 1200, orgs: ['fw', 'rd'], reward: 8500, xpReward: 180 },
-    { name: 'Waldbrand', reqs: {'ELW_Group': 1, 'LF_Group': 2, 'TLF_Group': 2, 'GWL_Group': 1}, time: 1500, orgs: ['fw'], reward: 7000, xpReward: 150 },
-
-	// --- FW TH ---	
-    { name: 'Verkehrsunfall (Eingeklemmt)', reqs: {'LF_Group': 1, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 2}, time: 900, orgs: ['fw', 'rd', 'pol'], reward: 5500, xpReward: 120 },
-	{ name: 'Kleine Ölspur', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'PKW verliert Betriebsstoffe', reqs: {'HLF_Group': 2}, time: 400, orgs: ['fw'], reward: 850, xpReward: 20 },
-	{ name: 'Baum auf Staße', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Kleiner Ast auf Straße', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	{ name: 'Türöffnung', reqs: {'HLF_Group': 1}, time: 300, orgs: ['fw'], reward: 800, xpReward: 15 },
-	// --- RD ---		
-    { name: 'Herzinfarkt', reqs: {'RTW_Group': 1, 'NEF': 1}, time: 600, orgs: ['rd'], reward: 2500, xpReward: 50 },
-    { name: 'Krankentransport', reqs: {'KTW': 1}, time: 400, orgs: ['rd'], reward: 600, xpReward: 10 },
-    { name: 'MANV 25 (Busunfall)', reqs: {'ELW2': 1, 'LF_Group': 3, 'RW_Group': 1, 'RTW_Group': 6, 'KTWB': 2, 'NEF': 4, 'LNA': 1, 'OrgL': 1, 'GWSan': 1, 'FuStW': 4}, time: 2500, orgs: ['fw', 'rd', 'seg', 'pol'], reward: 28000, xpReward: 600 },	
-	// --- POL ---	
-    { name: 'Schlägerei (Groß)', reqs: {'FuStW': 4, 'GruKw': 1, 'RTW_Group': 2}, time: 700, orgs: ['pol', 'rd'], reward: 3500, xpReward: 80 },
-    { name: 'Demonstration eskaliert', reqs: {'FuStW': 5, 'GefKw': 2, 'GruKw': 3, 'WaWe': 1, 'BeDoKw': 1, 'GWSan': 1, 'RTW_Group': 2}, time: 1200, orgs: ['pol', 'seg'], reward: 12000, xpReward: 250 },
-	// --- THW ---		
-    { name: 'Gebäudeeinsturz', reqs: {'ELW1': 1, 'LF_Group': 2, 'RW_Group': 1, 'MTWTZ': 1, 'GKW': 1, 'MzGW': 1, 'RTW_Group': 3, 'NEF': 2, 'FuStW': 2}, time: 1800, orgs: ['fw', 'thw', 'rd'], reward: 22000, xpReward: 450 },
-	// --- BPOL ---
-	{ name: 'Person auf Gleis', reqs: {'FuStW': 1}, time: 300, orgs: ['bpol'], reward: 800, xpReward: 15 }
+// WICHTIG: Das ist jetzt ein `let`, damit wir eigene Einsätze speichern können!
+let MISSION_TEMPLATES = [
+    { name: 'Mülleimerbrand', reqs: {'LF_Group': 1}, time: 300, reward: 800, xpReward: 15 },
+    { name: 'Brennender PKW', reqs: {'LF_Group': 1, 'FuStW': 1}, time: 400, reward: 1800, xpReward: 35 },
+    { name: 'Zimmerbrand', reqs: {'ELW_Group': 1, 'LF_Group': 2, 'DLK_Group': 1, 'RTW_Group': 1, 'FuStW': 1}, time: 800, reward: 4500, xpReward: 100 },
+    { name: 'Dachstuhlbrand', reqs: {'ELW_Group': 1, 'LF_Group': 3, 'DLK_Group': 2, 'GWA': 1, 'RTW_Group': 1, 'FuStW': 2}, time: 1200, reward: 8500, xpReward: 180 },
+    { name: 'Waldbrand', reqs: {'ELW_Group': 1, 'LF_Group': 2, 'TLF_Group': 2, 'GWL_Group': 1}, time: 1500, reward: 7000, xpReward: 150 },
+    { name: 'Verkehrsunfall (Eingeklemmt)', reqs: {'LF_Group': 1, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 2}, time: 900, reward: 5500, xpReward: 120 },
+    { name: 'Herzinfarkt', reqs: {'RTW_Group': 1, 'NEF': 1}, time: 600, reward: 2500, xpReward: 50 },
+    { name: 'Krankentransport', reqs: {'KTW': 1}, time: 400, reward: 600, xpReward: 10 },
+    { name: 'Schlägerei (Groß)', reqs: {'FuStW': 4, 'GruKw': 1, 'RTW_Group': 2}, time: 700, reward: 3500, xpReward: 80 },
+    { name: 'Demonstration eskaliert', reqs: {'FuStW': 5, 'GefKw': 2, 'GruKw': 3, 'WaWe': 1, 'BeDoKw': 1, 'GWSan': 1, 'RTW_Group': 2}, time: 1200, reward: 12000, xpReward: 250 },
+    { name: 'MANV 25 (Busunfall)', reqs: {'ELW2': 1, 'LF_Group': 3, 'RW_Group': 1, 'RTW_Group': 6, 'KTWB': 2, 'NEF': 4, 'LNA': 1, 'OrgL': 1, 'GWSan': 1, 'FuStW': 4}, time: 2500, reward: 28000, xpReward: 600 },
+    { name: 'Gebäudeeinsturz', reqs: {'ELW1': 1, 'LF_Group': 2, 'RW_Group': 1, 'MTWTZ': 1, 'GKW': 1, 'MzGW': 1, 'RTW_Group': 3, 'NEF': 2, 'FuStW': 2}, time: 1800, reward: 22000, xpReward: 450 }
 ];
 
 const AAO_LIST = [
@@ -288,8 +255,10 @@ const AAO_LIST = [
 ];
 
 // --- STATE & ECONOMY ---
-let simTime = new Date(); simTime.setHours(12, 0, 0, 0); 
+let simTime = new Date(); 
+let isLiveTime = true;
 let timeScale = 1; let lastRealTime = performance.now();
+
 let stations = []; let missions = []; let globalVehicles = []; 
 let buildMode = null; let stIdCtr = 1; let vIdCtr = 1; let mIdCtr = 1;
 let activeDispatchMissionId = null;
@@ -298,7 +267,7 @@ let lastAutoHireSimMs = simTime.getTime();
 
 let settings = { design: 'standard', theme: 'dark', sound: 'on', mapstyle: 'streets' };
 
-let credits = 25000000;
+let credits = 250000;
 let xp = 0;
 
 function updateEconomyUI() {
@@ -445,12 +414,23 @@ function applyTheme() {
 }
 
 // --- TIME & LOOP ---
+function setLiveTime() {
+    timeScale = 1;
+    isLiveTime = true;
+    simTime = new Date(); 
+    document.querySelectorAll('.time-controls .btn-nav').forEach(b => b.classList.remove('active'));
+    document.getElementById('ts-live').classList.add('active');
+    showToast(`Uhrzeit: Echtzeit (Live)`);
+}
+
 function setTimeScale(s) {
     timeScale = s;
+    isLiveTime = false;
     document.querySelectorAll('.time-controls .btn-nav').forEach(b => b.classList.remove('active'));
     document.getElementById('ts-' + s).classList.add('active');
     showToast(`Zeitbeschleunigung: ${s}x`);
 }
+
 function formatTime(d) {
     return d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0') + ':' + d.getSeconds().toString().padStart(2, '0');
 }
@@ -458,7 +438,13 @@ function formatTime(d) {
 function gameLoop(currentTime) {
     let deltaReal = currentTime - lastRealTime; lastRealTime = currentTime;
     let deltaSim = deltaReal * timeScale;
-    simTime = new Date(simTime.getTime() + deltaSim);
+    
+    if(isLiveTime) {
+        simTime = new Date();
+    } else {
+        simTime = new Date(simTime.getTime() + deltaSim);
+    }
+    
     document.getElementById('clock').innerText = formatTime(simTime);
     
     updateWeather();
@@ -736,7 +722,7 @@ function buyVehicle(type) {
         status: 'free', lat: st.lat, lng: st.lng, missionId: null, 
         travelStartMs: 0, travelDurationMs: 0, marker: null, crewReadyMs: 0,
         route: null,
-        installedUpgrades: [] // NEU: Upgrade Speicher
+        installedUpgrades: []
     };
     globalVehicles.push(v); st.vehicles.push(v.id);
     renderStationVehicles(st); updateStationList(); showToast(`${VEHICLES[type].name} gekauft! (-${price.toLocaleString('de-DE')} Cr)`);
@@ -809,7 +795,7 @@ async function buildPresetStation(presetName) {
             id: vIdCtr++, stId: st.id, type: vType, number: countOfSameType + 1,
             status: 'free', lat: st.lat, lng: st.lng, missionId: null,
             travelStartMs: 0, travelDurationMs: 0, marker: null, crewReadyMs: 0, route: null,
-            installedUpgrades: [] // NEU: Upgrade Speicher
+            installedUpgrades: []
         };
         globalVehicles.push(v);
         st.vehicles.push(v.id);
@@ -918,10 +904,135 @@ function updateFMSModal() {
 }
 setInterval(() => { if(document.getElementById('fms-modal').style.display === 'flex') updateFMSModal(); }, 2000);
 
+// --- EDITOR FÜR EIGENE EINSÄTZE ---
+
+function openMissionEditor() {
+    document.getElementById('mission-editor-modal').style.display = 'flex';
+    document.getElementById('mission-editor-form').style.display = 'none';
+    renderMissionTemplateList();
+}
+
+function renderMissionTemplateList() {
+    const list = document.getElementById('mission-template-list');
+    list.innerHTML = '';
+    MISSION_TEMPLATES.forEach((m, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-aao';
+        btn.innerHTML = `<strong>${m.name}</strong><br><small>${m.reward} Cr | ${m.time} Sek.</small>`;
+        btn.onclick = () => editMissionTemplate(idx);
+        list.appendChild(btn);
+    });
+}
+
+function createNewMissionTemplate() {
+    document.getElementById('mission-editor-form').style.display = 'flex';
+    document.getElementById('edit-mission-index').value = 'new';
+    document.getElementById('edit-mission-name').value = '';
+    document.getElementById('edit-mission-time').value = '300';
+    document.getElementById('edit-mission-reward').value = '1000';
+    document.getElementById('edit-mission-xp').value = '50';
+
+    renderReqInputs({});
+}
+
+function editMissionTemplate(idx) {
+    const m = MISSION_TEMPLATES[idx];
+    document.getElementById('mission-editor-form').style.display = 'flex';
+    document.getElementById('edit-mission-index').value = idx;
+    document.getElementById('edit-mission-name').value = m.name;
+    document.getElementById('edit-mission-time').value = m.time;
+    document.getElementById('edit-mission-reward').value = m.reward;
+    document.getElementById('edit-mission-xp').value = m.xpReward || 50;
+
+    renderReqInputs(m.reqs);
+}
+
+function renderReqInputs(currentReqs) {
+    const container = document.getElementById('edit-mission-reqs');
+    container.innerHTML = '';
+
+    // Kombiniert alle Gruppen und Fahrzeuge für die Auswahl
+    let allOptions = Object.keys(GROUPS).concat(Object.keys(VEHICLES));
+
+    allOptions.forEach(key => {
+        let name = translateReq(key);
+        let val = currentReqs[key] || 0;
+
+        let div = document.createElement('div');
+        div.style.display = 'flex';
+        div.style.justifyContent = 'space-between';
+        div.style.alignItems = 'center';
+        div.style.background = 'var(--bg-base)';
+        div.style.padding = '4px 8px';
+        div.style.borderRadius = '4px';
+
+        div.innerHTML = `
+            <span style="font-size:0.8rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width: 150px;" title="${name}">${name}</span>
+            <input type="number" min="0" max="50" class="req-input settings-select" data-key="${key}" value="${val}" style="width: 50px; padding: 2px;">
+        `;
+        container.appendChild(div);
+    });
+}
+
+function saveMissionTemplate() {
+    let idx = document.getElementById('edit-mission-index').value;
+    let name = document.getElementById('edit-mission-name').value;
+    let time = parseInt(document.getElementById('edit-mission-time').value) || 300;
+    let reward = parseInt(document.getElementById('edit-mission-reward').value) || 1000;
+    let xp = parseInt(document.getElementById('edit-mission-xp').value) || 50;
+
+    if(name.trim() === '') {
+        alert("Bitte einen Einsatznamen eingeben!");
+        return;
+    }
+
+    let reqs = {};
+    document.querySelectorAll('.req-input').forEach(input => {
+        let val = parseInt(input.value);
+        if (val > 0) {
+            reqs[input.getAttribute('data-key')] = val;
+        }
+    });
+
+    let newMission = {
+        name: name,
+        time: time,
+        reward: reward,
+        xpReward: xp,
+        reqs: reqs,
+        orgs: ['fw'] 
+    };
+
+    if (idx === 'new') {
+        MISSION_TEMPLATES.push(newMission);
+    } else {
+        MISSION_TEMPLATES[idx] = newMission;
+    }
+
+    showToast("Einsatz-Vorlage erfolgreich gespeichert!");
+    renderMissionTemplateList();
+    document.getElementById('mission-editor-form').style.display = 'none';
+}
+
+function deleteMissionTemplate() {
+    let idx = document.getElementById('edit-mission-index').value;
+    if (idx === 'new') {
+        document.getElementById('mission-editor-form').style.display = 'none';
+        return;
+    }
+
+    if (confirm("Möchtest du diesen Einsatz wirklich aus dem Spiel löschen?")) {
+        MISSION_TEMPLATES.splice(idx, 1);
+        showToast("Einsatz gelöscht!");
+        renderMissionTemplateList();
+        document.getElementById('mission-editor-form').style.display = 'none';
+    }
+}
+
+
 // --- MISSIONS ---
 setInterval(spawnMission, 25000); 
 
-// NEU: Upgrade Hilfsfunktion
 function vehicleSatisfiesReq(v, reqKey) {
     if (GROUPS[reqKey] && GROUPS[reqKey].includes(v.type)) return true;
     if (v.type === reqKey) return true;
@@ -937,7 +1048,6 @@ function vehicleSatisfiesReq(v, reqKey) {
     return false;
 }
 
-// ÜBERARBEITET: Nutzt nun die Hilfsfunktion
 function fleetHasReqs(reqs) {
     for(let reqKey in reqs) {
         let needed = reqs[reqKey]; 
@@ -954,7 +1064,8 @@ async function spawnMission() {
     let maxMissions = Math.max(5, stations.length * 3);
     if(missions.filter(m => m.status !== 'done').length >= maxMissions) return;
     
-    let possibleMissions = MISSIONS.filter(m => fleetHasReqs(m.reqs));
+    // Wir nutzen jetzt unsere bearbeitbare MISSION_TEMPLATES Liste!
+    let possibleMissions = MISSION_TEMPLATES.filter(m => fleetHasReqs(m.reqs));
     if(possibleMissions.length === 0) return;
 
     const validSts = stations.filter(s=>!s.type.startsWith('school_') && s.type !== 'rd_kh');
@@ -1133,7 +1244,6 @@ function renderDispatchVehicleList(m) {
     });
 }
 
-// ÜBERARBEITET: Nutzt nun die Hilfsfunktion für Upgrades
 function triggerAAO(reqs) {
     const checkboxes = document.querySelectorAll('.disp-cb:not(:disabled)');
     checkboxes.forEach(cb => { cb.checked = false; cb.parentElement.classList.remove('selected'); });
@@ -1311,7 +1421,6 @@ function updateVehicles(deltaSimMs) {
     });
 }
 
-// ÜBERARBEITET: Berücksichtigt Upgrades bei der Fahrzeugberechnung am Einsatzort
 function checkMissionReqs(m) {
     let fulfilled = true;
     let missingArr = [];
@@ -1422,6 +1531,7 @@ function saveGame() {
         stations: stations.map(s => ({...s, marker: null})),
         missions: missions.map(m => ({...m, marker: null})),
         vehicles: globalVehicles.map(v => ({...v, marker: null, route: null})), 
+        MISSION_TEMPLATES: MISSION_TEMPLATES, // Eigene Einsätze speichern
         counters: { stIdCtr, vIdCtr, mIdCtr },
         simTime: simTime.getTime(), settings: settings, einsatzstop: einsatzstop,
         credits: credits, xp: xp
@@ -1441,7 +1551,15 @@ function loadGame() {
         
         stations = data.stations || []; missions = data.missions || []; globalVehicles = data.vehicles || [];
         stIdCtr = data.counters.stIdCtr; vIdCtr = data.counters.vIdCtr; mIdCtr = data.counters.mIdCtr;
-        simTime = new Date(data.simTime); if(data.settings) settings = data.settings;
+        
+        if(data.MISSION_TEMPLATES) MISSION_TEMPLATES = data.MISSION_TEMPLATES; // Eigene Einsätze laden
+        
+        simTime = new Date(data.simTime); 
+        isLiveTime = false;
+        document.querySelectorAll('.time-controls .btn-nav').forEach(b => b.classList.remove('active'));
+        document.getElementById('ts-1').classList.add('active'); 
+
+        if(data.settings) settings = data.settings;
         if(data.einsatzstop !== undefined && data.einsatzstop !== einsatzstop) toggleEinsatzstop();
         
         if(data.credits !== undefined) credits = data.credits;
@@ -1450,7 +1568,7 @@ function loadGame() {
         stations.forEach(s => createStationMarker(s));
         missions.forEach(m => { if(m.status !== 'done') createMissionMarker(m); });
         globalVehicles.forEach(v => { 
-            if(!v.installedUpgrades) v.installedUpgrades = []; // Verhindert Fehler bei alten Spielständen
+            if(!v.installedUpgrades) v.installedUpgrades = [];
             if(v.status === 'en_route_mission' || v.status === 'en_route_home' || v.status === 'waiting_crew' || v.status === 'transport_hospital' || v.status === 'at_hospital') {
                 if(!v.route) v.route = prepareRouteData([[v.lat, v.lng], [v.targetLat || v.lat, v.targetLng || v.lng]]);
                 createVehicleMarker(v); 
@@ -1469,7 +1587,6 @@ function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 // --- VEHICLE EDIT & UPGRADE SYSTEM ---
 let currentEditVehImageBase64 = null;
 
-// NEU: Kauf-Funktion für Upgrades
 function buyUpgrade(vId, upgKey) {
     const v = globalVehicles.find(x => x.id === vId);
     const vDef = VEHICLES[v.type];
