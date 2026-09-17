@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <!-- Deine neue, ausgelagerte CSS-Datei -->
-    <link rel="stylesheet" href="css/style.css" /> 
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
@@ -31,28 +31,34 @@
             <div class="time-controls">
                 <span class="sim-time" id="clock">12:00:00</span>
                 <span style="margin: 0 6px; color:var(--text-muted);">|</span>
-                <button class="btn-nav active" onclick="setTimeScale(1)" id="ts-1">1x</button>
+                <button class="btn-nav active" onclick="setLiveTime()" id="ts-live" style="color: var(--color-return);">Live</button>
+                <button class="btn-nav" onclick="setTimeScale(1)" id="ts-1">1x</button>
                 <button class="btn-nav" onclick="setTimeScale(5)" id="ts-5">5x</button>
                 <button class="btn-nav" onclick="setTimeScale(20)" id="ts-20">20x</button>
                 <button class="btn-nav" onclick="setTimeScale(60)" id="ts-60">60x</button>
-                <button class="btn-nav" onclick="toggleLiveTime()" id="ts-live">Live</button>
             </div>
             <button class="btn-nav" onclick="openSettingsModal()">⚙️</button>
         </div>
     </div>
 
     <div id="main-container">
+        <!-- LINKES HUD: Einsätze -->
         <div class="sidebar">
-            <div class="sidebar-header">Einsätze (<span id="mission-count">0</span>)</div>
+            <div class="sidebar-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Einsätze (<span id="mission-count">0</span>)</span>
+                <button class="btn-nav" style="padding: 2px 6px; font-size: 0.8rem; background: var(--bg-base);" onclick="openMissionEditor()" title="Einsätze anpassen">✏️ Editor</button>
+            </div>
             <div class="sidebar-content" id="mission-list">
                 <div style="color: var(--text-muted); text-align: center; margin-top: 20px;">Baue Wachen auf der Karte, um Einsätze zu generieren.</div>
             </div>
         </div>
 
+        <!-- MITTE: Karte -->
         <div id="map-container">
             <div id="map"></div>
         </div>
 
+        <!-- RECHTES HUD: Bauwesen -->
         <div class="sidebar">
             <div class="sidebar-header">Wachen & Bauwesen</div>
             <div class="sidebar-content">
@@ -80,13 +86,7 @@
                     <button class="build-btn" onclick="setBuildMode('pol_wache', this)">Polizeirevier [300.000 Cr]</button>
                     <button class="build-btn" onclick="setBuildMode('pol_bepo', this)">Bereitschaftspolizei [500.000 Cr]</button>
                 </div>
-				
-                <div class="org-section org-bpol">
-                    <div class="org-header">Bundespolizei</div>
-                    <button class="build-btn" onclick="setBuildMode('bpol_wache', this)">Bundespolizeirevier [300.000 Cr]</button>
-                    <button class="build-btn" onclick="setBuildMode('pol_bepo', this)">Bundesbereitschaftspolizei [500.000 Cr]</button>
-                </div>				
-				
+
                 <div class="org-section org-seg">
                     <div class="org-header">KatSchutz / SEG / DRK</div>
                     <button class="build-btn" onclick="setBuildMode('seg_wache', this)">SEG / Katastrophenschutz [150.000 Cr]</button>
@@ -231,6 +231,61 @@
         </div>
     </div>
 
+    <!-- NEU: Einsatz-Editor Modal -->
+    <div class="modal-overlay" id="mission-editor-modal">
+        <div class="modal" style="max-width: 900px; height: 85vh;">
+            <div class="modal-header">
+                <span>📋 Einsatz-Editor (Eigene Einsätze erstellen)</span>
+                <button class="close-btn" onclick="closeModal('mission-editor-modal')">&times;</button>
+            </div>
+            <div class="modal-body" style="display: flex; gap: 20px; padding: 15px; overflow: hidden;">
+                
+                <!-- Linke Seite: Liste der Einsätze -->
+                <div style="flex: 1; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); padding-right: 15px; overflow-y: auto;">
+                    <button class="btn-action" style="margin-bottom: 15px; padding: 10px;" onclick="createNewMissionTemplate()">➕ Neuen Einsatz anlegen</button>
+                    <div id="mission-template-list" style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Wird per JS gefüllt -->
+                    </div>
+                </div>
+
+                <!-- Rechte Seite: Bearbeitungs-Formular -->
+                <div style="flex: 2; display: none; flex-direction: column; gap: 12px; overflow-y: auto; padding-right: 5px;" id="mission-editor-form">
+                    <input type="hidden" id="edit-mission-index">
+                    
+                    <label style="font-weight: bold; font-size: 0.9rem;">Einsatz-Name:
+                        <input type="text" id="edit-mission-name" class="settings-select" style="width: 100%; margin-top: 4px;" placeholder="z.B. Brennender Baum">
+                    </label>
+                    
+                    <div style="display: flex; gap: 15px;">
+                        <label style="flex: 1; font-weight: bold; font-size: 0.9rem;">Dauer (Sekunden):
+                            <input type="number" id="edit-mission-time" class="settings-select" style="width: 100%; margin-top: 4px;" placeholder="z.B. 300">
+                        </label>
+                        <label style="flex: 1; font-weight: bold; font-size: 0.9rem;">Belohnung (Credits):
+                            <input type="number" id="edit-mission-reward" class="settings-select" style="width: 100%; margin-top: 4px;" placeholder="z.B. 1500">
+                        </label>
+                        <label style="flex: 1; font-weight: bold; font-size: 0.9rem;">Belohnung (XP):
+                            <input type="number" id="edit-mission-xp" class="settings-select" style="width: 100%; margin-top: 4px;" placeholder="z.B. 50">
+                        </label>
+                    </div>
+
+                    <label style="font-weight: bold; font-size: 0.9rem; margin-top: 10px;">🚨 Benötigte Fahrzeuge / Gruppen:</label>
+                    <div style="background: var(--bg-hover); padding: 12px; border-radius: 6px; border: 1px solid var(--border-color);">
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0;">Trage eine Zahl ein, wie viele Fahrzeuge dieser Art minimal vor Ort sein müssen, damit der Einsatz abgearbeitet wird. (0 = wird nicht benötigt)</p>
+                        <div id="edit-mission-reqs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <!-- Wird per JS dynamisch mit Input-Feldern gefüllt -->
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 15px;">
+                        <button class="btn-dispatch" style="flex: 2; border-radius: 6px; padding: 10px;" onclick="saveMissionTemplate()">💾 Einsatz Speichern</button>
+                        <button class="btn-nav" style="flex: 1; background: var(--color-danger); color: white; border: none; border-radius: 6px; padding: 10px;" onclick="deleteMissionTemplate()">🗑️ Löschen</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Schools / Lehrgänge Modal -->
     <div class="modal-overlay" id="schools-modal">
         <div class="modal" style="max-width: 800px;">
@@ -331,11 +386,10 @@
                     <img id="veh-edit-preview" style="max-width: 100%; max-height: 150px; display:none; margin-bottom: 15px; border-radius: 4px; border: 1px solid var(--border-color);">
                 </div>
 
-                <!-- NEU: Upgrade Bereich -->
+                <!-- Upgrade Bereich -->
                 <hr style="border-color: var(--border-color); width: 100%; margin: 10px 0;">
                 <label style="font-size:0.85rem; font-weight:bold;">🛠️ Fahrzeug-Upgrades:</label>
                 <div id="veh-upgrades-list" style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem; margin-bottom: 15px; margin-top: 5px;"></div>
-                <!-- ENDE NEU -->
                 
                 <button class="btn-dispatch" style="border-radius: 8px;" onclick="saveVehicleEdit()">💾 Schließen & Speichern</button>
                 <input type="hidden" id="veh-edit-id">
