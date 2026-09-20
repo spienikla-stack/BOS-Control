@@ -88,7 +88,7 @@ const ORGS = {
 };
 
 const VEHICLES = {
-    // Feuerwehr
+    // FEUERWEHR
     'KdoW': { name: 'KdoW', bw_name: '10', org: 'fw', speed: 90, crew: 1, reqQual: null, price: 40000, upkeep: 100 },
     'ELW1': { name: 'ELW 1', bw_name: '11', org: 'fw', speed: 85, crew: 2, reqQual: 'Zugführer', price: 80000, upkeep: 150 },
     'HLF20': { name: 'HLF 20', bw_name: '46', org: 'fw', speed: 70, crew: 9, reqQual: 'Atemschutz', price: 350000, upkeep: 500 },
@@ -99,16 +99,16 @@ const VEHICLES = {
     'DLK': { name: 'DLK 23/12', bw_name: '33', org: 'fw', speed: 65, crew: 3, reqQual: 'Drehleitermaschinist', price: 600000, upkeep: 800 },
     'RW': { name: 'RW', bw_name: '52', org: 'fw', speed: 70, crew: 3, reqQual: null, price: 350000, upkeep: 450 },
 
-    // Rettungsdienst
+    // RETTUNGSDIENST
     'RTW': { name: 'RTW', bw_name: '83', org: 'rd', speed: 90, crew: 2, reqQual: null, price: 150000, upkeep: 250 },
     'KTW': { name: 'KTW', bw_name: '85', org: 'rd', speed: 85, crew: 2, reqQual: null, price: 80000, upkeep: 150 },
     'NEF': { name: 'NEF', bw_name: '82', org: 'rd', speed: 100, crew: 2, reqQual: 'Notarzt', price: 90000, upkeep: 200 },
     
-    // Polizei (Land)
+    // POLIZEI (LAND)
     'FuStW': { name: 'FuStW (Land)', bw_name: 'Streife', org: 'pol', speed: 95, crew: 2, reqQual: null, price: 60000, upkeep: 150 },
     'GefKw': { name: 'GefKw (Land)', bw_name: 'GefKw', org: 'pol', speed: 75, crew: 2, reqQual: null, price: 80000, upkeep: 150 },
     
-    // Bundespolizei
+    // BUNDESPOLIZEI
     'BP_FuStW': { name: 'BP-FuStW', bw_name: 'Streife', org: 'bpol', speed: 95, crew: 2, reqQual: null, price: 65000, upkeep: 160 },
     'BP_GefKw': { name: 'BP-GefKw', bw_name: 'GefKw', org: 'bpol', speed: 75, crew: 2, reqQual: null, price: 85000, upkeep: 160 },
     'BP_WaWe': { name: 'BP-WaWe 10000', bw_name: 'WaWe', org: 'bpol', speed: 70, crew: 4, reqQual: null, price: 280000, upkeep: 350 }
@@ -120,7 +120,7 @@ const GROUPS = {
     'RW_Group': ['RW'],
     'DLK_Group': ['DLK'],
     'RTW_Group': ['RTW'],
-    'BP_Streife_Group': ['BP_FuStW']
+    'Streife_Group': ['FuStW', 'BP_FuStW']
 };
 
 const STATION_TYPES = {
@@ -131,40 +131,43 @@ const STATION_TYPES = {
     'rd_kh': { name: 'Krankenhaus', org: 'rd', icon: '🏥', delay: false, initStaff: 100, vehicles: ['NEF'], buildCost: 5000000 },
     'pol_wache': { name: 'Polizeirevier', org: 'pol', icon: '🚓', delay: false, initStaff: 30, vehicles: ['FuStW'], buildCost: 300000 },
     'pol_bepo': { name: 'Bereitschaftspolizei', org: 'pol', icon: '🛡️', delay: false, initStaff: 60, vehicles: ['FuStW', 'GefKw'], buildCost: 500000 },
-
-    // BUNDESPOLIZEI WACHEN
-    'bpol_revier': { 
-        name: 'Bundespolizeirevier', 
-        org: 'bpol', 
-        icon: '👮‍♂️', 
-        delay: false, 
-        initStaff: 25, 
-        vehicles: ['BP_FuStW', 'BP_GefKw'], 
-        buildCost: 350000 
-    },
-    'bpol_inspektion': { 
-        name: 'Bundespolizeiinspektion', 
-        org: 'bpol', 
-        icon: '🏢', 
-        delay: false, 
-        initStaff: 60, 
-        vehicles: ['BP_FuStW', 'BP_GefKw', 'BP_WaWe'], 
-        buildCost: 750000 
-    }
+    'bpol_revier': { name: 'Bundespolizeirevier', org: 'bpol', icon: '👮‍♂️', delay: false, initStaff: 25, vehicles: ['BP_FuStW', 'BP_GefKw'], buildCost: 350000 },
+    'bpol_inspektion': { name: 'Bundespolizeiinspektion', org: 'bpol', icon: '🏢', delay: false, initStaff: 60, vehicles: ['BP_FuStW', 'BP_GefKw', 'BP_WaWe'], buildCost: 750000 }
 };
 
+// ==========================================
+// MISSIONS-POOL (MIT MIN-XP LEVELN)
+// ==========================================
 const MISSIONS = [
-    { name: 'Mülleimerbrand', reqs: { 'LF_Group': 1 }, time: 18, orgs: ['fw'], reward: 800, xpReward: 15 },
-    { name: 'Zimmerbrand', reqs: { 'ELW_Group': 1, 'LF_Group': 2, 'DLK_Group': 1, 'RTW_Group': 1, 'FuStW': 1 }, time: 45, orgs: ['fw', 'rd'], reward: 4500, xpReward: 100 },
-    { name: 'Verkehrsunfall (Eingeklemmt)', reqs: { 'LF_Group': 1, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 2 }, time: 50, orgs: ['fw', 'rd', 'pol'], reward: 5500, xpReward: 120 },
-    { name: 'Herzinfarkt', reqs: { 'RTW_Group': 1, 'NEF': 1 }, time: 30, orgs: ['rd'], reward: 2500, xpReward: 50 },
-    { name: 'Ruhestörung', reqs: { 'FuStW': 1 }, time: 15, orgs: ['pol'], reward: 800, xpReward: 15 },
-    { name: 'Raubüberfall', reqs: { 'FuStW': 2 }, time: 25, orgs: ['pol'], reward: 1600, xpReward: 35 },
+    // --- STUFE 1: EINSTEIGER / BASIS (0 - 200 XP) ---
+    { name: 'Brennt Mülleimer', minXp: 0, reqs: { 'LF_Group': 1 }, time: 15, orgs: ['fw'], reward: 650, xpReward: 10 },
+    { name: 'Ölspur klein', minXp: 0, reqs: { 'LF_Group': 1 }, time: 20, orgs: ['fw'], reward: 800, xpReward: 15 },
+    { name: 'Akute Atemnot', minXp: 0, reqs: { 'RTW_Group': 1 }, time: 20, orgs: ['rd'], reward: 1100, xpReward: 20 },
+    { name: 'Krankentransport dringlich', minXp: 0, reqs: { 'KTW': 1 }, time: 25, orgs: ['rd'], reward: 600, xpReward: 10 },
+    { name: 'Ruhestörung / Nachbarschaftsstreit', minXp: 0, reqs: { 'FuStW': 1 }, time: 15, orgs: ['pol'], reward: 750, xpReward: 15 },
+    { name: 'Fahrkartenkontrolle eskaliert', minXp: 0, reqs: { 'BP_FuStW': 1 }, time: 18, orgs: ['bpol'], reward: 850, xpReward: 15 },
 
-    // BUNDESPOLIZEI EINSÄTZE
-    { name: 'Personen im Gleisbereich', reqs: { 'BP_FuStW': 2 }, time: 30, orgs: ['bpol'], reward: 2200, xpReward: 45 },
-    { name: 'Gepäckstück im Hauptbahnhof', reqs: { 'BP_FuStW': 2, 'BP_GefKw': 1 }, time: 40, orgs: ['bpol'], reward: 3100, xpReward: 70 },
-    { name: 'Randale im Bahnhofsbereich', reqs: { 'BP_FuStW': 3, 'BP_GefKw': 1, 'RTW_Group': 1 }, time: 45, orgs: ['bpol', 'rd'], reward: 4200, xpReward: 95 }
+    // --- STUFE 2: FORTGESCHRITTEN (200 - 800 XP) ---
+    { name: 'Containerbrand am Gebäude', minXp: 200, reqs: { 'LF_Group': 2 }, time: 25, orgs: ['fw'], reward: 1500, xpReward: 30 },
+    { name: 'Baum auf Fahrbahn (Sturmschaden)', minXp: 200, reqs: { 'LF_Group': 1, 'RW_Group': 1 }, time: 25, orgs: ['fw'], reward: 1800, xpReward: 35 },
+    { name: 'Herzinfarkt / Reanimation', minXp: 200, reqs: { 'RTW_Group': 1, 'NEF': 1 }, time: 30, orgs: ['rd'], reward: 2400, xpReward: 50 },
+    { name: 'Verkehrsunfall PKW', minXp: 300, reqs: { 'LF_Group': 1, 'RTW_Group': 1, 'FuStW': 1 }, time: 30, orgs: ['fw', 'rd', 'pol'], reward: 2800, xpReward: 60 },
+    { name: 'Einbruchdiebstahl Gewerbeobjekt', minXp: 300, reqs: { 'FuStW': 2 }, time: 25, orgs: ['pol'], reward: 1700, xpReward: 40 },
+    { name: 'Personen im Gleisbereich', minXp: 300, reqs: { 'BP_FuStW': 2 }, time: 25, orgs: ['bpol'], reward: 2200, xpReward: 45 },
+    { name: 'Taschendiebstahl Serie am Bahnhof', minXp: 400, reqs: { 'BP_FuStW': 2, 'BP_GefKw': 1 }, time: 30, orgs: ['bpol'], reward: 2900, xpReward: 55 },
+
+    // --- STUFE 3: ERFAHREN / GROSSEINSÄTZE (800 - 2500 XP) ---
+    { name: 'Zimmerbrand mit Menschenrettung', minXp: 800, reqs: { 'ELW_Group': 1, 'LF_Group': 2, 'DLK_Group': 1, 'RTW_Group': 1, 'NEF': 1 }, time: 45, orgs: ['fw', 'rd'], reward: 4800, xpReward: 110 },
+    { name: 'Schwerer Verkehrsunfall (mehrere PKW eingeklemmt)', minXp: 1000, reqs: { 'LF_Group': 2, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 2 }, time: 50, orgs: ['fw', 'rd', 'pol'], reward: 6200, xpReward: 140 },
+    { name: 'Razzia / Durchsuchungsbeschluss', minXp: 1200, reqs: { 'FuStW': 3, 'GefKw': 1 }, time: 40, orgs: ['pol'], reward: 3900, xpReward: 85 },
+    { name: 'Herrenloses Gepäckstück (Sprengstoffverdacht)', minXp: 1200, reqs: { 'BP_FuStW': 3, 'BP_GefKw': 1, 'RTW_Group': 1 }, time: 45, orgs: ['bpol', 'rd'], reward: 4500, xpReward: 100 },
+    { name: 'Schlägerei rivalisierender Fangruppen im Bahnhof', minXp: 1500, reqs: { 'BP_FuStW': 4, 'BP_GefKw': 2, 'RTW_Group': 2 }, time: 50, orgs: ['bpol', 'rd'], reward: 5800, xpReward: 130 },
+
+    // --- STUFE 4: ELITE / GROSSSCHADENSLAGEN (> 2500 XP) ---
+    { name: 'Dachstuhlbrand Schule/Mehrfamilienhaus', minXp: 2500, reqs: { 'ELW_Group': 1, 'LF_Group': 4, 'DLK_Group': 2, 'RW_Group': 1, 'RTW_Group': 3, 'NEF': 1, 'FuStW': 2 }, time: 65, orgs: ['fw', 'rd', 'pol'], reward: 9500, xpReward: 220 },
+    { name: 'Großbrand Lagerhalle (Industriegebiet)', minXp: 3500, reqs: { 'ELW_Group': 1, 'LF_Group': 5, 'DLK_Group': 2, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 3 }, time: 80, orgs: ['fw', 'rd', 'pol'], reward: 12500, xpReward: 300 },
+    { name: 'Zugkollision Rangierbahnhof', minXp: 4000, reqs: { 'ELW_Group': 1, 'LF_Group': 3, 'RW_Group': 1, 'RTW_Group': 3, 'NEF': 2, 'BP_FuStW': 3, 'BP_GefKw': 1 }, time: 85, orgs: ['fw', 'rd', 'bpol'], reward: 14000, xpReward: 350 },
+    { name: 'Schwere Ausschreitungen vor Bundesgebäude / Bahnhof', minXp: 5000, reqs: { 'BP_FuStW': 4, 'BP_GefKw': 2, 'BP_WaWe': 1, 'RTW_Group': 3, 'NEF': 1 }, time: 90, orgs: ['bpol', 'rd'], reward: 16000, xpReward: 400 }
 ];
 
 // ==========================================
@@ -491,13 +494,51 @@ function toggleHireMode() {
 }
 
 // ==========================================
-// 9. EINSÄTZE & ALARMIERUNG (DISPATCH)
+// 9. FILTER & BESITZPRÜFUNG FÜR EINSÄTZE
+// ==========================================
+
+// Ermittelt, wie viele Einheiten einer Anforderung aktuell im Gesamtbestand existieren
+function getOwnedCountForRequirement(reqKey) {
+    if (GROUPS[reqKey]) {
+        const allowedTypes = GROUPS[reqKey];
+        return globalVehicles.filter(v => allowedTypes.includes(v.type)).length;
+    }
+    return globalVehicles.filter(v => v.type === reqKey).length;
+}
+
+// Prüft, ob ein Einsatz generiert werden darf
+function canSpawnMission(mTemplate) {
+    // 1. Level-Check (XP)
+    if (xp < (mTemplate.minXp || 0)) return false;
+
+    // 2. Besitz-Check: Der Spieler muss mindestens so viele Einheiten besitzen wie gefordert
+    for (const [reqKey, requiredCount] of Object.entries(mTemplate.reqs)) {
+        const owned = getOwnedCountForRequirement(reqKey);
+        if (owned < requiredCount) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// ==========================================
+// 10. EINSÄTZE & ALARMIERUNG (DISPATCH)
 // ==========================================
 function spawnRandomMission() {
     if (stations.length === 0 || einsatzstop) return;
 
+    // Dynamisches Limit abhängig von der Wachenanzahl (z. B. 1,5 Einsätze pro Wache)
+    const maxMissions = Math.max(1, Math.floor(stations.length * 1.5));
+    if (missions.length >= maxMissions) {
+        return; // Limit erreicht: Keine neuen Einsätze spawnen
+    }
+
+    // Nur Einsätze filtern, die der Spieler nach Level und Flotte bewältigen kann
+    const possibleMissions = MISSIONS.filter(m => canSpawnMission(m));
+    if (possibleMissions.length === 0) return;
+
     const baseSt = stations[Math.floor(Math.random() * stations.length)];
-    const mTemplate = MISSIONS[Math.floor(Math.random() * MISSIONS.length)];
+    const mTemplate = possibleMissions[Math.floor(Math.random() * possibleMissions.length)];
 
     const dLat = (Math.random() - 0.5) * 0.04;
     const dLng = (Math.random() - 0.5) * 0.04;
@@ -658,7 +699,7 @@ function sendVehicles() {
 }
 
 // ==========================================
-// 10. SIMULATIONSLOGIK (VEHICLES & MISSIONS)
+// 11. SIMULATIONSLOGIK (VEHICLES & MISSIONS)
 // ==========================================
 function updateVehicles(deltaMs) {
     const deltaSec = deltaMs / 1000;
@@ -707,7 +748,8 @@ function updateMissions(deltaMs) {
     nextMissionSpawnCounter -= deltaSec;
     if (nextMissionSpawnCounter <= 0) {
         spawnRandomMission();
-        nextMissionSpawnCounter = 20 + Math.random() * 25;
+        // Zeitintervall zwischen Einsätzen (skaliert dynamisch)
+        nextMissionSpawnCounter = 15 + Math.random() * 20;
     }
 
     missions.forEach((m, idx) => {
@@ -734,7 +776,7 @@ function updateMissions(deltaMs) {
                 });
 
                 missions.splice(idx, 1);
-                showToast(`Einsatz abgeschlossen: +${m.reward} Cr!`);
+                showToast(`Einsatz abgeschlossen: +${m.reward} Cr! (+${m.xpReward} XP)`);
                 updateMissionsUI();
             }
         }
@@ -742,7 +784,7 @@ function updateMissions(deltaMs) {
 }
 
 // ==========================================
-// 11. FAHRZEUG-MARKER & CUSTOM ICONS
+// 12. FAHRZEUG-MARKER & CUSTOM ICONS
 // ==========================================
 function createVehicleMarker(v) {
     if (v.marker) return;
@@ -777,7 +819,7 @@ function createVehicleMarker(v) {
 }
 
 // ==========================================
-// 12. FAHRZEUG BEARBEITEN
+// 13. FAHRZEUG BEARBEITEN
 // ==========================================
 let currentEditVehImageBase64 = null;
 
@@ -835,7 +877,7 @@ function saveVehicleEdit() {
 }
 
 // ==========================================
-// 13. SETTINGS, MODALS & STORAGE
+// 14. SETTINGS, MODALS & STORAGE
 // ==========================================
 function openFMSModal() {
     const grid = document.getElementById('fms-container');
@@ -966,7 +1008,7 @@ function closeModal(id) {
 }
 
 // ==========================================
-// 14. GAME LOOP START
+// 15. GAME LOOP START
 // ==========================================
 function gameLoop(currentTime) {
     let deltaReal = currentTime - lastRealTime;
