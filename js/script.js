@@ -84,36 +84,34 @@ const ORGS = {
     'dlrg': { name: 'DLRG', color: '#f1c40f', funfname: 'Pelikan' },
     'bw': { name: 'Bergwacht', color: '#27ae60', funfname: 'Bergwacht' },
     'seg': { name: 'SEG/KatS', color: '#d35400', funfname: 'Rotkreuz' },
-    'luft': { name: 'Luftrettung', color: '#c0392b', funfname: 'Christoph' },
-    'school': { name: 'Schule', color: '#8e44ad', funfname: 'Schule' }
+    'luft': { name: 'Luftrettung', color: '#c0392b', funfname: 'Christoph' }
 };
 
 const VEHICLES = {
+    // Feuerwehr
     'KdoW': { name: 'KdoW', bw_name: '10', org: 'fw', speed: 90, crew: 1, reqQual: null, price: 40000, upkeep: 100 },
     'ELW1': { name: 'ELW 1', bw_name: '11', org: 'fw', speed: 85, crew: 2, reqQual: 'Zugführer', price: 80000, upkeep: 150 },
-    'HLF20': { 
-        name: 'HLF 20', bw_name: '46', org: 'fw', speed: 70, crew: 9, reqQual: 'Atemschutz', price: 350000, upkeep: 500,
-        possibleUpgrades: { 'th_satz': { name: 'TH-Satz (VU)', price: 45000, provides: 'RW_Group' } }
-    },
-    'LF10': { 
-        name: 'LF 10', bw_name: '42', org: 'fw', speed: 70, crew: 9, reqQual: 'Atemschutz', price: 250000, upkeep: 350,
-        possibleUpgrades: { 'th_satz': { name: 'TH-Satz (Klein)', price: 30000, provides: 'RW_Group' } }
-    },
+    'HLF20': { name: 'HLF 20', bw_name: '46', org: 'fw', speed: 70, crew: 9, reqQual: 'Atemschutz', price: 350000, upkeep: 500 },
+    'LF10': { name: 'LF 10', bw_name: '42', org: 'fw', speed: 70, crew: 9, reqQual: 'Atemschutz', price: 250000, upkeep: 350 },
     'MLF': { name: 'MLF', bw_name: '40', org: 'fw', speed: 75, crew: 6, reqQual: 'Atemschutz', price: 180000, upkeep: 250 },
     'TSFW': { name: 'TSF-W', bw_name: '48', org: 'fw', speed: 75, crew: 6, reqQual: 'Atemschutz', price: 110000, upkeep: 180 },
     'TSF': { name: 'TSF', bw_name: '47', org: 'fw', speed: 80, crew: 6, reqQual: null, price: 90000, upkeep: 150 },
     'DLK': { name: 'DLK 23/12', bw_name: '33', org: 'fw', speed: 65, crew: 3, reqQual: 'Drehleitermaschinist', price: 600000, upkeep: 800 },
     'RW': { name: 'RW', bw_name: '52', org: 'fw', speed: 70, crew: 3, reqQual: null, price: 350000, upkeep: 450 },
 
+    // Rettungsdienst
     'RTW': { name: 'RTW', bw_name: '83', org: 'rd', speed: 90, crew: 2, reqQual: null, price: 150000, upkeep: 250 },
     'KTW': { name: 'KTW', bw_name: '85', org: 'rd', speed: 85, crew: 2, reqQual: null, price: 80000, upkeep: 150 },
     'NEF': { name: 'NEF', bw_name: '82', org: 'rd', speed: 100, crew: 2, reqQual: 'Notarzt', price: 90000, upkeep: 200 },
     
-    'FuStW': { name: 'FuStW', bw_name: 'Streife', org: 'pol', speed: 95, crew: 2, reqQual: null, price: 60000, upkeep: 150 },
-    'GefKw': { name: 'GefKw', bw_name: 'GefKw', org: 'pol', speed: 75, crew: 2, reqQual: null, price: 80000, upkeep: 150 },
+    // Polizei (Land)
+    'FuStW': { name: 'FuStW (Land)', bw_name: 'Streife', org: 'pol', speed: 95, crew: 2, reqQual: null, price: 60000, upkeep: 150 },
+    'GefKw': { name: 'GefKw (Land)', bw_name: 'GefKw', org: 'pol', speed: 75, crew: 2, reqQual: null, price: 80000, upkeep: 150 },
     
-    'BP_FuStW': { name: 'BP-FuStW', bw_name: 'Streife', org: 'bpol', speed: 95, crew: 2, reqQual: null, price: 60000, upkeep: 150 },
-    'BP_GefKw': { name: 'BP-GefKw', bw_name: 'GefKw', org: 'bpol', speed: 75, crew: 2, reqQual: null, price: 80000, upkeep: 150 }
+    // Bundespolizei
+    'BP_FuStW': { name: 'BP-FuStW', bw_name: 'Streife', org: 'bpol', speed: 95, crew: 2, reqQual: null, price: 65000, upkeep: 160 },
+    'BP_GefKw': { name: 'BP-GefKw', bw_name: 'GefKw', org: 'bpol', speed: 75, crew: 2, reqQual: null, price: 85000, upkeep: 160 },
+    'BP_WaWe': { name: 'BP-WaWe 10000', bw_name: 'WaWe', org: 'bpol', speed: 70, crew: 4, reqQual: null, price: 280000, upkeep: 350 }
 };
 
 const GROUPS = {
@@ -121,7 +119,8 @@ const GROUPS = {
     'ELW_Group': ['ELW1', 'KdoW'],
     'RW_Group': ['RW'],
     'DLK_Group': ['DLK'],
-    'RTW_Group': ['RTW']
+    'RTW_Group': ['RTW'],
+    'BP_Streife_Group': ['BP_FuStW']
 };
 
 const STATION_TYPES = {
@@ -132,20 +131,40 @@ const STATION_TYPES = {
     'rd_kh': { name: 'Krankenhaus', org: 'rd', icon: '🏥', delay: false, initStaff: 100, vehicles: ['NEF'], buildCost: 5000000 },
     'pol_wache': { name: 'Polizeirevier', org: 'pol', icon: '🚓', delay: false, initStaff: 30, vehicles: ['FuStW'], buildCost: 300000 },
     'pol_bepo': { name: 'Bereitschaftspolizei', org: 'pol', icon: '🛡️', delay: false, initStaff: 60, vehicles: ['FuStW', 'GefKw'], buildCost: 500000 },
-    'bpol_wache': { name: 'Bundespolizei', org: 'bpol', icon: '🛡️', delay: false, initStaff: 60, vehicles: ['BP_FuStW', 'BP_GefKw'], buildCost: 500000 }
+
+    // BUNDESPOLIZEI WACHEN
+    'bpol_revier': { 
+        name: 'Bundespolizeirevier', 
+        org: 'bpol', 
+        icon: '👮‍♂️', 
+        delay: false, 
+        initStaff: 25, 
+        vehicles: ['BP_FuStW', 'BP_GefKw'], 
+        buildCost: 350000 
+    },
+    'bpol_inspektion': { 
+        name: 'Bundespolizeiinspektion', 
+        org: 'bpol', 
+        icon: '🏢', 
+        delay: false, 
+        initStaff: 60, 
+        vehicles: ['BP_FuStW', 'BP_GefKw', 'BP_WaWe'], 
+        buildCost: 750000 
+    }
 };
 
 const MISSIONS = [
     { name: 'Mülleimerbrand', reqs: { 'LF_Group': 1 }, time: 18, orgs: ['fw'], reward: 800, xpReward: 15 },
     { name: 'Zimmerbrand', reqs: { 'ELW_Group': 1, 'LF_Group': 2, 'DLK_Group': 1, 'RTW_Group': 1, 'FuStW': 1 }, time: 45, orgs: ['fw', 'rd'], reward: 4500, xpReward: 100 },
-   // TH
     { name: 'Verkehrsunfall (Eingeklemmt)', reqs: { 'LF_Group': 1, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 2 }, time: 50, orgs: ['fw', 'rd', 'pol'], reward: 5500, xpReward: 120 },
-  // RD
     { name: 'Herzinfarkt', reqs: { 'RTW_Group': 1, 'NEF': 1 }, time: 30, orgs: ['rd'], reward: 2500, xpReward: 50 },
- // POL
     { name: 'Ruhestörung', reqs: { 'FuStW': 1 }, time: 15, orgs: ['pol'], reward: 800, xpReward: 15 },
-     { name: 'Raub', reqs: { 'FuStW': 1 }, time: 15, orgs: ['pol'], reward: 800, xpReward: 15 }
- // BPOL
+    { name: 'Raubüberfall', reqs: { 'FuStW': 2 }, time: 25, orgs: ['pol'], reward: 1600, xpReward: 35 },
+
+    // BUNDESPOLIZEI EINSÄTZE
+    { name: 'Personen im Gleisbereich', reqs: { 'BP_FuStW': 2 }, time: 30, orgs: ['bpol'], reward: 2200, xpReward: 45 },
+    { name: 'Gepäckstück im Hauptbahnhof', reqs: { 'BP_FuStW': 2, 'BP_GefKw': 1 }, time: 40, orgs: ['bpol'], reward: 3100, xpReward: 70 },
+    { name: 'Randale im Bahnhofsbereich', reqs: { 'BP_FuStW': 3, 'BP_GefKw': 1, 'RTW_Group': 1 }, time: 45, orgs: ['bpol', 'rd'], reward: 4200, xpReward: 95 }
 ];
 
 // ==========================================
@@ -208,7 +227,7 @@ function setLiveTime() {
     document.querySelectorAll('.time-controls .btn-nav').forEach(b => b.classList.remove('active'));
     const btn = document.getElementById('ts-live');
     if (btn) btn.classList.add('active');
-    showToast("Uhrzeit auf Live (Echtzeit) synchronisiert.");
+    showToast("Uhrzeit auf Live synchronisiert.");
 }
 
 function setTimeScale(s) {
@@ -289,7 +308,7 @@ function buildStationAt(lat, lng, type) {
         id: stIdCtr++,
         type: type,
         name: `${def.name} #${stIdCtr - 1}`,
-        town: 'Ort',
+        town: 'Standort',
         lat: lat,
         lng: lng,
         staff: def.initStaff,
@@ -472,7 +491,7 @@ function toggleHireMode() {
 }
 
 // ==========================================
-// 9. EINSÄTZE & ALARMIERUNG (AAO / DISPATCH)
+// 9. EINSÄTZE & ALARMIERUNG (DISPATCH)
 // ==========================================
 function spawnRandomMission() {
     if (stations.length === 0 || einsatzstop) return;
@@ -480,7 +499,6 @@ function spawnRandomMission() {
     const baseSt = stations[Math.floor(Math.random() * stations.length)];
     const mTemplate = MISSIONS[Math.floor(Math.random() * MISSIONS.length)];
 
-    // Zufällige Position im Umkreis von ca. 3 km
     const dLat = (Math.random() - 0.5) * 0.04;
     const dLng = (Math.random() - 0.5) * 0.04;
     const mLat = baseSt.lat + dLat;
@@ -579,7 +597,6 @@ function openDispatchModal(mId) {
         }
     });
 
-    // Liste der verfügbaren Fahrzeuge
     const vList = document.getElementById('dispatch-vehicle-list');
     vList.innerHTML = '';
 
@@ -657,7 +674,7 @@ function updateVehicles(deltaMs) {
 
             const vDef = VEHICLES[v.type];
             const speed = (vDef ? vDef.speed : 60) * (currentWeather.speedMod || 1.0);
-            const step = (speed / 3600) * 0.01 * deltaSec; // Annäherung Bewegungsschritt
+            const step = (speed / 3600) * 0.01 * deltaSec;
 
             if (dist <= step || dist < 0.0001) {
                 v.lat = destLat;
@@ -687,7 +704,6 @@ function updateVehicles(deltaMs) {
 function updateMissions(deltaMs) {
     const deltaSec = deltaMs / 1000;
 
-    // Dynamisches Einsatz-Spawnen
     nextMissionSpawnCounter -= deltaSec;
     if (nextMissionSpawnCounter <= 0) {
         spawnRandomMission();
@@ -701,7 +717,6 @@ function updateMissions(deltaMs) {
             m.workTimeRemaining -= deltaSec * workingVehicles.length;
 
             if (m.workTimeRemaining <= 0) {
-                // Einsatz abgeschlossen
                 credits += m.reward;
                 xp += m.xpReward;
                 updateEconomyUI();
@@ -710,7 +725,6 @@ function updateMissions(deltaMs) {
                     map.removeLayer(m.marker);
                 }
 
-                // Fahrzeuge zurück zur Wache schicken
                 m.assignedVehicleIds.forEach(vid => {
                     const v = globalVehicles.find(x => x.id === vid);
                     if (v) {
@@ -890,7 +904,6 @@ function loadGame() {
     xp = data.xp || 0;
     settings = data.settings || settings;
 
-    // Reset Map Layers
     stations.forEach(s => s.marker && map.removeLayer(s.marker));
     missions.forEach(m => m.marker && map.removeLayer(m.marker));
     globalVehicles.forEach(v => v.marker && map.removeLayer(v.marker));
@@ -979,6 +992,6 @@ function gameLoop(currentTime) {
     requestAnimationFrame(gameLoop);
 }
 
-// Initialer Start
+// Start
 updateEconomyUI();
 requestAnimationFrame(gameLoop);
