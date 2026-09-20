@@ -138,9 +138,14 @@ const STATION_TYPES = {
 const MISSIONS = [
     { name: 'Mülleimerbrand', reqs: { 'LF_Group': 1 }, time: 18, orgs: ['fw'], reward: 800, xpReward: 15 },
     { name: 'Zimmerbrand', reqs: { 'ELW_Group': 1, 'LF_Group': 2, 'DLK_Group': 1, 'RTW_Group': 1, 'FuStW': 1 }, time: 45, orgs: ['fw', 'rd'], reward: 4500, xpReward: 100 },
+   // TH
     { name: 'Verkehrsunfall (Eingeklemmt)', reqs: { 'LF_Group': 1, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 2 }, time: 50, orgs: ['fw', 'rd', 'pol'], reward: 5500, xpReward: 120 },
+  // RD
     { name: 'Herzinfarkt', reqs: { 'RTW_Group': 1, 'NEF': 1 }, time: 30, orgs: ['rd'], reward: 2500, xpReward: 50 },
-    { name: 'Ruhestörung', reqs: { 'FuStW': 1 }, time: 15, orgs: ['pol'], reward: 800, xpReward: 15 }
+ // POL
+    { name: 'Ruhestörung', reqs: { 'FuStW': 1 }, time: 15, orgs: ['pol'], reward: 800, xpReward: 15 },
+     { name: 'Raub', reqs: { 'FuStW': 1 }, time: 15, orgs: ['pol'], reward: 800, xpReward: 15 }
+ // BPOL
 ];
 
 // ==========================================
