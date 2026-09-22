@@ -1,27 +1,593 @@
-<!-- Command / Einsatzführung Modal -->
-    <div class="modal-overlay" id="command-modal">
-        <div class="modal dispatch-modal-size" style="max-width: 600px; height: auto;">
-            <div class="modal-header">
-                <div>
-                    <span id="cmd-modal-title" class="modal-title-main">Einsatzführung</span><br>
-                    <span id="cmd-modal-sub" class="modal-title-sub">Warte auf Befehle...</span>
-                </div>
-                <button class="close-btn" onclick="closeModal('command-modal')">&times;</button>
+<!DOCTYPE html>
+
+<html lang="de" data-theme="dark">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Einsatzleitsystem - Ultimate Desktop Edition</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+</head>
+
+<body>
+
+    <div id="navbar">
+
+        <div class="brand">🚨 Leitstellen Simulator</div>
+
+        
+
+        <div class="economy-display">
+
+            <span class="credits">💰 <span id="ui-credits">25.000.000</span> Cr</span>
+
+            <span class="xp">🌟 <span id="ui-xp">0</span> XP</span>
+
+        </div>
+
+        
+
+        <div class="controls-group">
+
+            <div class="weather-info" id="weather-display" title="Aktuelles Wetter">☀️ Sonnig</div>
+
+            <button class="btn-nav btn-fms" onclick="openFMSModal()">📡 FMS Übersicht</button>
+
+            <button class="btn-nav" id="btn-einsatzstop" onclick="toggleEinsatzstop()">▶️ Einsätze Aktiv</button>
+
+            <button class="btn-nav btn-school" onclick="openSchoolsModal()">🎓 Schulen</button>
+
+            <button class="btn-nav btn-presets" onclick="openPresetsModal()">📍 Reale Wachen</button>
+
+
+
+            <div class="time-controls">
+
+                <span class="sim-time" id="clock">12:00:00</span>
+
+                <span class="divider">|</span>
+
+                <button class="btn-nav active" onclick="setLiveTime()" id="ts-live" style="color: var(--color-return);">Live</button>
+
+                <button class="btn-nav" onclick="setTimeScale(1)" id="ts-1">1x</button>
+
+                <button class="btn-nav" onclick="setTimeScale(5)" id="ts-5">5x</button>
+
+                <button class="btn-nav" onclick="setTimeScale(20)" id="ts-20">20x</button>
+
+                <button class="btn-nav" onclick="setTimeScale(60)" id="ts-60">60x</button>
+
             </div>
-            <div class="modal-body">
-                <div class="box-panel">
-                    <div class="box-title">🚨 Kräfte vor Ort</div>
-                    <ul id="cmd-on-scene-list" style="margin: 0; padding-left: 20px; font-size: 0.9rem; color: var(--color-return);"></ul>
-                </div>
+
+            <button class="btn-nav" onclick="openSettingsModal()">⚙️</button>
+
+        </div>
+
+    </div>
+
+
+
+    <div id="main-container">
+
+        <!-- LINKES HUD: Einsätze -->
+
+        <div class="sidebar left-sidebar">
+
+            <div class="sidebar-header">
+
+                <span>Einsätze (<span id="mission-count">0</span>)</span>
+
+                <button class="btn-nav editor-btn" onclick="openMissionEditor()" title="Einsätze anpassen">✏️ Editor</button>
+
+            </div>
+
+            <div class="sidebar-content" id="mission-list">
+
+                <div class="empty-state">Baue Wachen auf der Karte, um Einsätze zu generieren.</div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MITTE: Karte -->
+
+        <div id="map-container">
+
+            <div id="map"></div>
+
+        </div>
+
+
+
+        <!-- RECHTES HUD: Bauwesen -->
+
+        <div class="sidebar right-sidebar">
+
+            <div class="sidebar-header">Wachen & Bauwesen</div>
+
+            <div class="sidebar-content">
+
                 
-                <h3 style="margin-bottom: 5px; margin-top: 15px;">Befehle erteilen:</h3>
-                <div id="cmd-actions" style="display: flex; flex-direction: column; gap: 10px;">
-                    <!-- Buttons werden per JS geladen -->
+
+                <div class="org-section org-fw">
+
+                    <div class="org-header">Feuerwehr</div>
+
+                    <button class="build-btn" onclick="setBuildMode('fw_ff_klein', this)">Freiw. Feuerwehr (Klein) [100.000 Cr]</button>
+
+                    <button class="build-btn" onclick="setBuildMode('fw_ff', this)">Freiw. Feuerwehr [250.000 Cr]</button>
+
+                    <button class="build-btn" onclick="setBuildMode('fw_bf', this)">Berufsfeuerwehr (BF) [1.000.000 Cr]</button>
+
                 </div>
 
-                <button class="btn-nav" style="margin-top: 20px; width: 100%; border-color: var(--color-warning); color: var(--color-warning);" onclick="openDispatchModal(activeCommandMissionId); closeModal('command-modal');">
-                    📡 Weitere Kräfte nachalarmieren
-                </button>
+
+
+                <div class="org-section org-rd">
+
+                    <div class="org-header">Rettungsdienst & Klinik</div>
+
+                    <button class="build-btn" onclick="setBuildMode('rd_wache', this)">Rettungswache [200.000 Cr]</button>
+
+                    <button class="build-btn hospital-btn" onclick="setBuildMode('rd_kh', this)">🏥 Krankenhaus [5.000.000 Cr]</button>
+
+                </div>
+
+
+
+                <div class="org-section org-pol">
+
+                    <div class="org-header">Polizei (Land)</div>
+
+                    <button class="build-btn" onclick="setBuildMode('pol_wache', this)">Polizeirevier [300.000 Cr]</button>
+
+                    <button class="build-btn" onclick="setBuildMode('pol_bepo', this)">Bereitschaftspolizei [500.000 Cr]</button>
+
+                </div>
+
+
+
+                <!-- EIGENE ABTEILUNG BUNDESPOLIZEI -->
+
+                <div class="org-section org-bpol">
+
+                    <div class="org-header">Bundespolizei (BPOL)</div>
+
+                    <button class="build-btn" onclick="setBuildMode('bpol_revier', this)">Bundespolizeirevier [350.000 Cr]</button>
+
+                    <button class="build-btn" onclick="setBuildMode('bpol_inspektion', this)">Bundespolizeiinspektion [750.000 Cr]</button>
+
+                </div>
+
+
+
+                <div class="org-section org-luft">
+
+                    <div class="org-header">Luftrettung / Hubschrauber</div>
+
+                    <button class="build-btn" onclick="setBuildMode('luft_hub', this)">Luftrettungszentrum [2.500.000 Cr]</button>
+
+                </div>
+
+
+
+                <div class="org-section org-seg">
+
+                    <div class="org-header">KatSchutz / SEG / DRK</div>
+
+                    <button class="build-btn" onclick="setBuildMode('seg_wache', this)">SEG / Katastrophenschutz [150.000 Cr]</button>
+
+                </div>
+
+
+
+                <div class="org-section org-thw">
+
+                    <div class="org-header">THW</div>
+
+                    <button class="build-btn" onclick="setBuildMode('thw_ov', this)">THW Ortsverband [250.000 Cr]</button>
+
+                </div>
+
+                
+
+                <div class="org-section org-dlrg">
+
+                    <div class="org-header">Wasserrettung (DLRG)</div>
+
+                    <button class="build-btn" onclick="setBuildMode('dlrg_wache', this)">DLRG Station [150.000 Cr]</button>
+
+                </div>
+
+                
+
+                <div class="org-section org-bw">
+
+                    <div class="org-header">Bergwacht</div>
+
+                    <button class="build-btn" onclick="setBuildMode('bw_wache', this)">Bergwacht Station [100.000 Cr]</button>
+
+                </div>
+
+
+
+                <div class="station-overview-header">Meine Wachen (<span id="station-count">0</span>):</div>
+
+                <div id="station-list"></div>
+
             </div>
+
         </div>
+
     </div>
+
+
+
+    <!-- FMS Modal -->
+
+    <div class="modal-overlay" id="fms-modal">
+
+        <div class="modal fms-modal-size">
+
+            <div class="modal-header">
+
+                <span>📡 Leitstellen-Übersicht (FMS Status)</span>
+
+                <button class="close-btn" onclick="closeModal('fms-modal')">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="fms-legend">
+
+                    <strong>Legende:</strong>
+
+                    <span class="fms-status-box fms-stat-1">1</span> Frei Funk
+
+                    <span class="fms-status-box fms-stat-2">2</span> Frei Wache
+
+                    <span class="fms-status-box fms-stat-3">3</span> Anfahrt
+
+                    <span class="fms-status-box fms-stat-4">4</span> Vor Ort
+
+                    <span class="fms-status-box fms-stat-7">7</span> Patient
+
+                    <span class="fms-status-box fms-stat-8">8</span> Am KH
+
+                    <span class="fms-status-box fms-stat-6">6</span> Nicht einsatzbereit
+
+                </div>
+
+                <div class="fms-grid" id="fms-container"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Station Modal -->
+
+    <div class="modal-overlay" id="station-modal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span id="station-modal-title" class="modal-title-main">Wache</span><br>
+
+                    <span id="station-modal-address" class="modal-title-sub"></span>
+
+                </div>
+
+                <button class="close-btn" onclick="closeModal('station-modal')">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="box-panel" id="staff-panel">
+
+                    <div class="box-title">
+
+                        <span>👥 Personal-Management</span>
+
+                        <span id="station-staff-count" class="staff-count">0 Mitarbeiter</span>
+
+                    </div>
+
+                    <div class="staff-controls">
+
+                        <div>
+
+                            <span>Modus: </span>
+
+                            <select id="station-hire-mode" class="settings-select" onchange="toggleHireMode()">
+
+                                <option value="auto">Automatisch (+1/Tag)</option>
+
+                                <option value="manual">Manuell</option>
+
+                            </select>
+
+                        </div>
+
+                        <button class="btn-action" onclick="hireStaffManual()">+ 5 Mitarbeiter (5.000 Cr)</button>
+
+                    </div>
+
+                    <div class="youth-controls">
+
+                        <span>👧 Jugendabteilung: <span id="station-youth-status">Inaktiv</span></span>
+
+                        <button class="btn-action btn-youth" onclick="toggleYouthSection()">Jugendabteilung gründen (25.000 Cr)</button>
+
+                    </div>
+
+                </div>
+
+
+
+                <h3>Fahrzeuge im Besitz (<span id="station-veh-count">0</span>)</h3>
+
+                <div id="station-vehicles-list" class="vehicle-list-panel"></div>
+
+                
+
+                <h3 id="shop-title">Fahrzeugmarkt</h3>
+
+                <div id="station-shop-list" class="vehicle-shop-grid"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Dispatch Modal -->
+
+    <div class="modal-overlay" id="dispatch-modal">
+
+        <div class="modal dispatch-modal-size">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span id="dispatch-modal-title" class="dispatch-title">Einsatz</span><br>
+
+                    <span id="dispatch-modal-address" class="modal-title-sub">📍 Koordinaten...</span>
+
+                </div>
+
+                <button class="close-btn" onclick="closeModal('dispatch-modal')">&times;</button>
+
+            </div>
+
+            <div class="modal-body no-padding">
+
+                <div class="dispatch-layout">
+
+                    <div class="dispatch-left">
+
+                        <div class="dispatch-info-box">
+
+                            <strong>Einsatz-Anforderung:</strong>
+
+                            <div id="dispatch-reqs" class="dispatch-reqs"></div>
+
+                            <div id="dispatch-assigned" class="dispatch-assigned">
+
+                                <strong>Bereits alarmiert / Vor Ort:</strong>
+
+                                <ul id="dispatch-assigned-list"></ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dispatch-right">
+
+                        <div class="vehicle-list-header">
+
+                            <span style="flex:2;">Fahrzeug</span>
+
+                            <span style="flex:1;">Status</span>
+
+                            <span style="flex:1;">Distanz</span>
+
+                        </div>
+
+                        <div class="dispatch-vehicle-list" id="dispatch-vehicle-list"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button class="btn-dispatch" id="btn-do-dispatch" onclick="sendVehicles()">🚨 Ausgewählte Fahrzeuge alarmieren</button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Vehicle Edit Modal -->
+
+    <div class="modal-overlay" id="vehicle-modal">
+
+        <div class="modal vehicle-edit-modal">
+
+            <div class="modal-header">
+
+                <span>Fahrzeug bearbeiten</span>
+
+                <button class="close-btn" onclick="closeModal('vehicle-modal')">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <label class="edit-label">Eigener Funkrufname:</label>
+
+                <input type="text" id="veh-edit-name" class="settings-select full-width" placeholder="Optional...">
+
+                
+
+                <label class="edit-label">Eigenes Bild (Für die Karte):</label>
+
+                <input type="file" id="veh-edit-img" accept="image/*" class="settings-select full-width">
+
+                
+
+                <div class="preview-container">
+
+                    <img id="veh-edit-preview" class="image-preview" alt="Vorschau">
+
+                </div>
+
+                
+
+                <button class="btn-dispatch btn-save" onclick="saveVehicleEdit()">💾 Speichern & Schließen</button>
+
+                <input type="hidden" id="veh-edit-id">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Settings Modal -->
+
+    <div class="modal-overlay" id="settings-modal">
+
+        <div class="modal settings-modal-size">
+
+            <div class="modal-header">
+
+                <span>⚙️ Einstellungen & Speicher</span>
+
+                <button class="close-btn" onclick="closeModal('settings-modal')">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="settings-row">
+
+                    <span>Fahrzeug-Design (Rufnamen)</span>
+
+                    <select class="settings-select" id="setting-design" onchange="updateSettings()">
+
+                        <option value="standard">Standard (Klartext)</option>
+
+                        <option value="bw">Baden-Württemberg</option>
+
+                    </select>
+
+                </div>
+
+                <div class="settings-row">
+
+                    <span>Erscheinungsbild</span>
+
+                    <select class="settings-select" id="setting-theme" onchange="updateSettings()">
+
+                        <option value="dark">Dunkel (Dark Mode)</option>
+
+                        <option value="light">Hell (Light Mode)</option>
+
+                    </select>
+
+                </div>
+
+                <div class="settings-row">
+
+                    <span>Sounds</span>
+
+                    <select class="settings-select" id="setting-sound" onchange="updateSettings()">
+
+                        <option value="on">An</option>
+
+                        <option value="off">Aus</option>
+
+                    </select>
+
+                </div>
+
+                <div class="settings-row">
+
+                    <span>Karten-Stil</span>
+
+                    <select class="settings-select" id="setting-mapstyle" onchange="updateSettings()">
+
+                        <option value="streets">Standard (Straßenkarte)</option>
+
+                        <option value="satellite">Satellit</option>
+
+                    </select>
+
+                </div>
+
+                <div class="settings-actions">
+
+                    <button class="btn-nav btn-save-game" onclick="saveGame()">💾 Spiel speichern</button>
+
+                    <button class="btn-nav btn-load-game" onclick="loadGame()">📂 Spiel laden</button>
+
+                </div>
+
+                <button class="btn-nav btn-clear-game" onclick="clearSave()">🗑️ Spielstand löschen</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Platzhalter Modals -->
+
+    <div class="modal-overlay" id="presets-modal"><div class="modal"><div class="modal-header"><span>Reale Wachen</span><button class="close-btn" onclick="closeModal('presets-modal')">&times;</button></div><div class="modal-body"><p>Presets folgen.</p></div></div></div>
+
+    <div class="modal-overlay" id="schools-modal"><div class="modal"><div class="modal-header"><span>Schulen</span><button class="close-btn" onclick="closeModal('schools-modal')">&times;</button></div><div class="modal-body"><p>Schulen-Übersicht folgt.</p></div></div></div>
+
+    <div class="modal-overlay" id="mission-editor-modal"><div class="modal"><div class="modal-header"><span>Editor</span><button class="close-btn" onclick="closeModal('mission-editor-modal')">&times;</button></div><div class="modal-body"><p>Editor-Modus.</p></div></div></div>
+
+
+
+    <div id="toast">Nachricht</div>
+
+
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
