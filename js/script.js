@@ -124,8 +124,9 @@ const GROUPS = {
 };
 
 const STATION_TYPES = {
-    'fw_ff_klein': { name: 'Freiwillige Feuerwehr (Klein)', org: 'fw', icon: '🚒', delay: true, initStaff: 15, vehicles: ['TSF', 'TSFW', 'MLF', 'LF10'], buildCost: 100000 },
-    'fw_ff': { name: 'Freiwillige Feuerwehr', org: 'fw', icon: '🚒', delay: true, initStaff: 30, vehicles: ['KdoW', 'ELW1', 'HLF20', 'DLK', 'RW'], buildCost: 250000 },
+    // HIER WURDE DIE FREIWILLIGE FEUERWEHR ZUSAMMENGELEGT:
+    'fw_ff': { name: 'Freiwillige Feuerwehr', org: 'fw', icon: '🚒', delay: true, initStaff: 25, vehicles: ['KdoW', 'ELW1', 'HLF20', 'LF10', 'MLF', 'TSFW', 'TSF', 'DLK', 'RW'], buildCost: 150000 },
+    
     'fw_bf': { name: 'Berufsfeuerwehr', org: 'fw', icon: '🏢', delay: false, initStaff: 50, vehicles: ['KdoW', 'ELW1', 'HLF20', 'DLK', 'RW'], buildCost: 1000000 },
     'rd_wache': { name: 'Rettungswache', org: 'rd', icon: '🚑', delay: false, initStaff: 20, vehicles: ['RTW', 'KTW', 'NEF'], buildCost: 200000 },
     'rd_kh': { name: 'Krankenhaus', org: 'rd', icon: '🏥', delay: false, initStaff: 100, vehicles: ['NEF'], buildCost: 5000000 },
@@ -273,8 +274,8 @@ function getFMS(status) {
         'free': 2,
         'waiting_crew': 6,
         'en_route_mission': 3,
-        'arrived': 4,      // NEU: Vor Ort, wartet auf Befehl
-        'working': 4,      // Vor Ort, arbeitet
+        'arrived': 4,
+        'working': 4,
         'transport_hospital': 7,
         'at_hospital': 8,
         'en_route_home': 1
@@ -495,10 +496,9 @@ function toggleHireMode() {
 }
 
 // ==========================================
-// 9. FILTER & BESITZPRÜFUNG FÜR EINSÄTZE
+// 9. FILTER & BESITZPRÜFUNG FÜR EINSÄTZE (NEU UND STRIKT)
 // ==========================================
 
-// Ermittelt, wie viele Einheiten einer Anforderung aktuell im Gesamtbestand existieren
 function getOwnedCountForRequirement(reqKey) {
     if (GROUPS[reqKey]) {
         const allowedTypes = GROUPS[reqKey];
@@ -507,18 +507,31 @@ function getOwnedCountForRequirement(reqKey) {
     return globalVehicles.filter(v => v.type === reqKey).length;
 }
 
-// Prüft, ob ein Einsatz generiert werden darf
+// Strikte Prüfung, ob der Einsatz machbar ist
 function canSpawnMission(mTemplate) {
     // 1. Level-Check (XP)
     if (xp < (mTemplate.minXp || 0)) return false;
 
-    // 2. Besitz-Check: Der Spieler muss mindestens so viele Einheiten besitzen wie gefordert
+    // 2. Gebäude-Check: Hast du überhaupt eine Wache der Organisation gebaut?
+    if (mTemplate.orgs && mTemplate.orgs.length > 0) {
+        for (const org of mTemplate.orgs) {
+            const hasOrgStation = stations.some(s => {
+                const sDef = STATION_TYPES[s.type];
+                return sDef && sDef.org === org;
+            });
+            if (!hasOrgStation) return false;
+        }
+    }
+
+    // 3. Fahrzeug-Check: Sind die Fahrzeuge für die Anforderungen WIRKLICH im Besitz?
     for (const [reqKey, requiredCount] of Object.entries(mTemplate.reqs)) {
         const owned = getOwnedCountForRequirement(reqKey);
         if (owned < requiredCount) {
             return false;
         }
     }
+    
+    // Alles geprüft, Einsatz darf generiert werden!
     return true;
 }
 
@@ -528,13 +541,10 @@ function canSpawnMission(mTemplate) {
 function spawnRandomMission() {
     if (stations.length === 0 || einsatzstop) return;
 
-    // Dynamisches Limit abhängig von der Wachenanzahl (z. B. 1,5 Einsätze pro Wache)
     const maxMissions = Math.max(1, Math.floor(stations.length * 1.5));
-    if (missions.length >= maxMissions) {
-        return; // Limit erreicht: Keine neuen Einsätze spawnen
-    }
+    if (missions.length >= maxMissions) return;
 
-    // Nur Einsätze filtern, die der Spieler nach Level und Flotte bewältigen kann
+    // Hier greift nun die strikte Filterung von oben
     const possibleMissions = MISSIONS.filter(m => canSpawnMission(m));
     if (possibleMissions.length === 0) return;
 
@@ -600,12 +610,10 @@ function updateMissionsUI() {
         const isWorking = workingVehicles.length > 0;
         const hasArrived = arrivedVehicles.length > 0;
 
-        // NEU: Klasse hinzufügen, wenn Fahrzeuge auf Befehle warten
         if (hasArrived && !isWorking) {
             item.classList.add('mission-needs-orders');
         }
 
-        // Status Text Logik
         let statusText = 'Wartet auf Kräfte';
         if (isWorking) {
             statusText = `In Arbeit (${Math.ceil(m.workTimeRemaining)}s)`;
@@ -645,7 +653,6 @@ function openDispatchModal(mId) {
     const assignedList = document.getElementById('dispatch-assigned-list');
     assignedList.innerHTML = '';
     
-    // Check if any vehicles are waiting for orders
     let hasArrivedVehicles = false;
 
     m.assignedVehicleIds.forEach(vid => {
@@ -654,7 +661,6 @@ function openDispatchModal(mId) {
             const st = stations.find(s => s.id === v.stId);
             const li = document.createElement('li');
             
-            // Zeige an, ob das Fahrzeug arbeitet oder wartet
             let activityText = "";
             if (v.status === 'arrived') activityText = " - Wartet auf Befehl!";
             if (v.status === 'working') activityText = ` - Führt aus: ${v.currentCommand || 'Arbeitet'}`;
@@ -666,7 +672,6 @@ function openDispatchModal(mId) {
         }
     });
 
-    // NEU: Zeige das Kommando-Panel, wenn Fahrzeuge vor Ort sind und auf Befehle warten
     const cmdPanel = document.getElementById('dispatch-command-panel');
     if (hasArrivedVehicles) {
         cmdPanel.style.display = 'block';
@@ -734,7 +739,6 @@ function sendVehicles() {
     }
 }
 
-// NEUE FUNKTION: Befehle an Fahrzeuge geben
 function issueCommand(cmdType) {
     const m = missions.find(x => x.id === activeDispatchMissionId);
     if (!m) return;
@@ -743,18 +747,17 @@ function issueCommand(cmdType) {
 
     m.assignedVehicleIds.forEach(vid => {
         const v = globalVehicles.find(x => x.id === vid);
-        // Allen Fahrzeugen, die warten, den Befehl erteilen
         if (v && v.status === 'arrived') {
             v.status = 'working';
-            v.currentCommand = cmdType; // Speichere, was sie gerade tun
+            v.currentCommand = cmdType;
             commandedCount++;
         }
     });
 
     if (commandedCount > 0) {
         showToast(`Befehl "${cmdType}" an ${commandedCount} Fahrzeug(e) erteilt. Arbeit beginnt!`);
-        openDispatchModal(m.id); // Modal refreshen, um Kommando-Box auszublenden
-        updateMissionsUI();      // Blinken in der Seitenleiste stoppen
+        openDispatchModal(m.id);
+        updateMissionsUI();
     }
 }
 
@@ -782,13 +785,11 @@ function updateVehicles(deltaMs) {
                 v.lng = destLng;
 
                 if (v.status === 'en_route_mission') {
-                    // NEU: Fahrzeug wartet nun auf Befehle
                     v.status = 'arrived'; 
                     const st = stations.find(s => s.id === v.stId);
-                    showToast(`🚨 ${getVehicleName(v, st)} ist am Einsatzort eingetroffen und wartet auf Befehle!`);
-                    updateMissionsUI(); // Sidebar aktualisieren
+                    showToast(`🚨 ${getVehicleName(v, st)} ist eingetroffen und wartet auf Befehle!`);
+                    updateMissionsUI(); 
                     
-                    // Modal aktualisieren falls es offen ist
                     if (activeDispatchMissionId === v.targetMissionId) {
                         openDispatchModal(activeDispatchMissionId);
                     }
@@ -817,7 +818,6 @@ function updateMissions(deltaMs) {
     nextMissionSpawnCounter -= deltaSec;
     if (nextMissionSpawnCounter <= 0) {
         spawnRandomMission();
-        // Zeitintervall zwischen Einsätzen (skaliert dynamisch)
         nextMissionSpawnCounter = 15 + Math.random() * 20;
     }
 
@@ -1026,6 +1026,10 @@ function loadGame() {
 
     (data.stations || []).forEach(s => {
         stIdCtr = Math.max(stIdCtr, s.id + 1);
+        
+        // GANZ WICHTIG: Migriert alte kleine Wachen zur normalen Wache!
+        if (s.type === 'fw_ff_klein') s.type = 'fw_ff';
+        
         const def = STATION_TYPES[s.type];
         const marker = L.marker([s.lat, s.lng], {
             icon: L.divIcon({
