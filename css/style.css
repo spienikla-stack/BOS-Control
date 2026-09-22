@@ -376,3 +376,66 @@ body, html {
     display: none;
     z-index: 9999;
 }
+
+/* ==========================================
+   11. EINSATZFÜHRUNG & BEFEHLE (NEU)
+   ========================================== */
+
+/* Blink-Animation für die Sidebar, wenn Fahrzeuge warten */
+@keyframes blink-alert {
+    0% { border-left-color: var(--color-danger); background-color: var(--bg-hover); }
+    50% { border-left-color: #ff0000; background-color: rgba(243, 139, 168, 0.2); transform: translateX(3px); }
+    100% { border-left-color: var(--color-danger); background-color: var(--bg-hover); }
+}
+
+.mission-needs-orders {
+    animation: blink-alert 1.2s infinite;
+    border-left-width: 6px;
+}
+
+.mission-needs-orders-text {
+    color: #f38ba8;
+    font-weight: bold;
+    animation: pulse 1s infinite;
+}
+
+/* Kommando-Panel im Einsatz-Modal */
+.command-panel {
+    background: var(--bg-panel);
+    border-top: 2px solid var(--color-warning);
+    padding: 12px 15px;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+}
+
+.command-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--color-warning);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.command-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.btn-command {
+    background: var(--bg-hover);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.btn-command:hover {
+    background: var(--color-success);
+    color: #11111b;
+    border-color: var(--color-success);
+    transform: translateY(-2px);
+}
