@@ -121,7 +121,8 @@ const GROUPS = {
     'RW_Group': ['RW'],
     'DLK_Group': ['DLK'],
     'RTW_Group': ['RTW'],
-    'Streife_Group': ['FuStW', 'BP_FuStW']
+    'Streife_Group': ['FuStW', 'BP_FuStW'],
+    'BP_DHF_Group': ['BP-DHF']
 };
 
 const STATION_TYPES = {
