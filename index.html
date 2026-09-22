@@ -44,7 +44,7 @@
                 <button class="btn-nav editor-btn" onclick="openMissionEditor()" title="Einsätze anpassen">✏️ Editor</button>
             </div>
             <div class="sidebar-content" id="mission-list">
-                <div class="empty-state">Baue Wachen auf der Karte, um Einsätze zu generieren.</div>
+                <div class="empty-state">Baue Wachen auf der Karte und kaufe Fahrzeuge, um Einsätze zu generieren.</div>
             </div>
         </div>
 
@@ -60,8 +60,8 @@
                 
                 <div class="org-section org-fw">
                     <div class="org-header">Feuerwehr</div>
-                    <button class="build-btn" onclick="setBuildMode('fw_ff_klein', this)">Freiw. Feuerwehr (Klein) [100.000 Cr]</button>
-                    <button class="build-btn" onclick="setBuildMode('fw_ff', this)">Freiw. Feuerwehr [250.000 Cr]</button>
+                    <!-- ZUSAMMENGELEGTE FREIWILLIGE FEUERWEHR -->
+                    <button class="build-btn" onclick="setBuildMode('fw_ff', this)">Freiwillige Feuerwehr [150.000 Cr]</button>
                     <button class="build-btn" onclick="setBuildMode('fw_bf', this)">Berufsfeuerwehr (BF) [1.000.000 Cr]</button>
                 </div>
 
@@ -208,7 +208,7 @@
                         </div>
                         <div class="dispatch-vehicle-list" id="dispatch-vehicle-list"></div>
                         
-                        <!-- NEU: Kommando-Panel (Standardmäßig versteckt) -->
+                        <!-- Kommando-Panel (Standardmäßig versteckt) -->
                         <div id="dispatch-command-panel" class="command-panel" style="display: none;">
                             <div class="command-header">🎙️ Einsatzführung - Befehle erteilen</div>
                             <div class="command-buttons">
