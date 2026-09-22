@@ -144,7 +144,7 @@ const MISSIONS = [
         // FEUERWEHR
     { name: 'Brennt Mülleimer', minXp: 0, reqs: { 'LF_Group': 1 }, time: 15, orgs: ['fw'], reward: 650, xpReward: 10 },
     { name: 'Ölspur klein', minXp: 0, reqs: { 'LF_Group': 1 }, time: 20, orgs: ['fw'], reward: 800, xpReward: 15 },
-    
+        // RETTUNGSDIENST
     { name: 'Akute Atemnot', minXp: 0, reqs: { 'RTW_Group': 1 }, time: 20, orgs: ['rd'], reward: 1100, xpReward: 20 },
     { name: 'Krankentransport dringlich', minXp: 0, reqs: { 'KTW': 1 }, time: 25, orgs: ['rd'], reward: 600, xpReward: 10 },
       // POLIZEI (LAND)  
@@ -156,7 +156,7 @@ const MISSIONS = [
         // FEUERWEHR
     { name: 'Containerbrand am Gebäude', minXp: 200, reqs: { 'LF_Group': 2 }, time: 25, orgs: ['fw'], reward: 1500, xpReward: 30 },
     { name: 'Baum auf Fahrbahn (Sturmschaden)', minXp: 200, reqs: { 'LF_Group': 1, 'RW_Group': 1 }, time: 25, orgs: ['fw'], reward: 1800, xpReward: 35 },
-    
+       // RETTUNGSDIENST 
     { name: 'Herzinfarkt / Reanimation', minXp: 200, reqs: { 'RTW_Group': 1, 'NEF': 1 }, time: 30, orgs: ['rd'], reward: 2400, xpReward: 50 },
        // POLIZEI (LAND) 
     { name: 'Verkehrsunfall PKW', minXp: 300, reqs: { 'LF_Group': 1, 'RTW_Group': 1, 'FuStW': 1 }, time: 30, orgs: ['fw', 'rd', 'pol'], reward: 2800, xpReward: 60 },
