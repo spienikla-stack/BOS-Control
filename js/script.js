@@ -141,33 +141,47 @@ const STATION_TYPES = {
 // ==========================================
 const MISSIONS = [
     // --- STUFE 1: EINSTEIGER / BASIS (0 - 200 XP) ---
+        // FEUERWEHR
     { name: 'Brennt Mülleimer', minXp: 0, reqs: { 'LF_Group': 1 }, time: 15, orgs: ['fw'], reward: 650, xpReward: 10 },
     { name: 'Ölspur klein', minXp: 0, reqs: { 'LF_Group': 1 }, time: 20, orgs: ['fw'], reward: 800, xpReward: 15 },
+    
     { name: 'Akute Atemnot', minXp: 0, reqs: { 'RTW_Group': 1 }, time: 20, orgs: ['rd'], reward: 1100, xpReward: 20 },
     { name: 'Krankentransport dringlich', minXp: 0, reqs: { 'KTW': 1 }, time: 25, orgs: ['rd'], reward: 600, xpReward: 10 },
+      // POLIZEI (LAND)  
     { name: 'Ruhestörung / Nachbarschaftsstreit', minXp: 0, reqs: { 'FuStW': 1 }, time: 15, orgs: ['pol'], reward: 750, xpReward: 15 },
+        // BUNDESPOLIZEI
     { name: 'Fahrkartenkontrolle eskaliert', minXp: 0, reqs: { 'BP_FuStW': 1 }, time: 18, orgs: ['bpol'], reward: 850, xpReward: 15 },
 
     // --- STUFE 2: FORTGESCHRITTEN (200 - 800 XP) ---
+        // FEUERWEHR
     { name: 'Containerbrand am Gebäude', minXp: 200, reqs: { 'LF_Group': 2 }, time: 25, orgs: ['fw'], reward: 1500, xpReward: 30 },
     { name: 'Baum auf Fahrbahn (Sturmschaden)', minXp: 200, reqs: { 'LF_Group': 1, 'RW_Group': 1 }, time: 25, orgs: ['fw'], reward: 1800, xpReward: 35 },
+    
     { name: 'Herzinfarkt / Reanimation', minXp: 200, reqs: { 'RTW_Group': 1, 'NEF': 1 }, time: 30, orgs: ['rd'], reward: 2400, xpReward: 50 },
+       // POLIZEI (LAND) 
     { name: 'Verkehrsunfall PKW', minXp: 300, reqs: { 'LF_Group': 1, 'RTW_Group': 1, 'FuStW': 1 }, time: 30, orgs: ['fw', 'rd', 'pol'], reward: 2800, xpReward: 60 },
+       // POLIZEI (LAND) 
     { name: 'Einbruchdiebstahl Gewerbeobjekt', minXp: 300, reqs: { 'FuStW': 2 }, time: 25, orgs: ['pol'], reward: 1700, xpReward: 40 },
+       // BUNDESPOLIZEI 
     { name: 'Personen im Gleisbereich', minXp: 300, reqs: { 'BP_FuStW': 2 }, time: 25, orgs: ['bpol'], reward: 2200, xpReward: 45 },
     { name: 'Taschendiebstahl Serie am Bahnhof', minXp: 400, reqs: { 'BP_FuStW': 2, 'BP_GefKw': 1 }, time: 30, orgs: ['bpol'], reward: 2900, xpReward: 55 },
 
     // --- STUFE 3: ERFAHREN / GROSSEINSÄTZE (800 - 2500 XP) ---
+        // FEUERWEHR
     { name: 'Zimmerbrand mit Menschenrettung', minXp: 800, reqs: { 'ELW_Group': 1, 'LF_Group': 2, 'DLK_Group': 1, 'RTW_Group': 1, 'NEF': 1 }, time: 45, orgs: ['fw', 'rd'], reward: 4800, xpReward: 110 },
     { name: 'Schwerer Verkehrsunfall (mehrere PKW eingeklemmt)', minXp: 1000, reqs: { 'LF_Group': 2, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 2 }, time: 50, orgs: ['fw', 'rd', 'pol'], reward: 6200, xpReward: 140 },
+        // POLIZEI (LAND)
     { name: 'Razzia / Durchsuchungsbeschluss', minXp: 1200, reqs: { 'FuStW': 3, 'GefKw': 1 }, time: 40, orgs: ['pol'], reward: 3900, xpReward: 85 },
+     // BUNDESPOLIZEI   
     { name: 'Herrenloses Gepäckstück (Sprengstoffverdacht)', minXp: 1200, reqs: { 'BP_FuStW': 3, 'BP_GefKw': 1, 'RTW_Group': 1 }, time: 45, orgs: ['bpol', 'rd'], reward: 4500, xpReward: 100 },
     { name: 'Schlägerei rivalisierender Fangruppen im Bahnhof', minXp: 1500, reqs: { 'BP_FuStW': 4, 'BP_GefKw': 2, 'RTW_Group': 2 }, time: 50, orgs: ['bpol', 'rd'], reward: 5800, xpReward: 130 },
 
     // --- STUFE 4: ELITE / GROSSSCHADENSLAGEN (> 2500 XP) ---
+        // FEUERWEHR
     { name: 'Dachstuhlbrand Schule/Mehrfamilienhaus', minXp: 2500, reqs: { 'ELW_Group': 1, 'LF_Group': 4, 'DLK_Group': 2, 'RW_Group': 1, 'RTW_Group': 3, 'NEF': 1, 'FuStW': 2 }, time: 65, orgs: ['fw', 'rd', 'pol'], reward: 9500, xpReward: 220 },
     { name: 'Großbrand Lagerhalle (Industriegebiet)', minXp: 3500, reqs: { 'ELW_Group': 1, 'LF_Group': 5, 'DLK_Group': 2, 'RW_Group': 1, 'RTW_Group': 2, 'NEF': 1, 'FuStW': 3 }, time: 80, orgs: ['fw', 'rd', 'pol'], reward: 12500, xpReward: 300 },
     { name: 'Zugkollision Rangierbahnhof', minXp: 4000, reqs: { 'ELW_Group': 1, 'LF_Group': 3, 'RW_Group': 1, 'RTW_Group': 3, 'NEF': 2, 'BP_FuStW': 3, 'BP_GefKw': 1 }, time: 85, orgs: ['fw', 'rd', 'bpol'], reward: 14000, xpReward: 350 },
+        // BUNDESPOLIZEI
     { name: 'Schwere Ausschreitungen vor Bundesgebäude / Bahnhof', minXp: 5000, reqs: { 'BP_FuStW': 4, 'BP_GefKw': 2, 'BP_WaWe': 1, 'RTW_Group': 3, 'NEF': 1 }, time: 90, orgs: ['bpol', 'rd'], reward: 16000, xpReward: 400 }
 ];
 
