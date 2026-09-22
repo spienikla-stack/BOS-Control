@@ -134,7 +134,7 @@ const STATION_TYPES = {
     'pol_wache': { name: 'Polizeirevier', org: 'pol', icon: '🚓', delay: false, initStaff: 30, vehicles: ['FuStW'], buildCost: 300000 },
     'pol_bepo': { name: 'Bereitschaftspolizei', org: 'pol', icon: '🛡️', delay: false, initStaff: 60, vehicles: ['FuStW', 'GefKw'], buildCost: 500000 },
     'bpol_revier': { name: 'Bundespolizeirevier', org: 'bpol', icon: '👮‍♂️', delay: false, initStaff: 25, vehicles: ['BP_FuStW', 'BP_GefKw'], buildCost: 350000 },
-    'bpol_inspektion': { name: 'Bundespolizeiinspektion', org: 'bpol', icon: '🏢', delay: false, initStaff: 60, vehicles: ['BP_FuStW', 'BP_GefKw', 'BP_WaWe'], buildCost: 750000 }
+    'bpol_inspektion': { name: 'Bundespolizeiinspektion', org: 'bpol', icon: '🏢', delay: false, initStaff: 60, vehicles: ['BP_FuStW', 'BP_GefKw', 'BP_WaWe', 'BP_DHF'], buildCost: 750000 }
 };
 
 // ==========================================
