@@ -273,7 +273,8 @@ function getFMS(status) {
         'free': 2,
         'waiting_crew': 6,
         'en_route_mission': 3,
-        'working': 4,
+        'arrived': 4,      // NEU: Vor Ort, wartet auf Befehl
+        'working': 4,      // Vor Ort, arbeitet
         'transport_hospital': 7,
         'at_hospital': 8,
         'en_route_home': 1
@@ -592,20 +593,35 @@ function updateMissionsUI() {
     missions.forEach(m => {
         const item = document.createElement('div');
         item.className = 'mission-item';
+        
+        const workingVehicles = m.assignedVehicleIds.map(id => globalVehicles.find(v => v.id === id)).filter(v => v && v.status === 'working');
+        const arrivedVehicles = m.assignedVehicleIds.map(id => globalVehicles.find(v => v.id === id)).filter(v => v && v.status === 'arrived');
+        
+        const isWorking = workingVehicles.length > 0;
+        const hasArrived = arrivedVehicles.length > 0;
+
+        // NEU: Klasse hinzufügen, wenn Fahrzeuge auf Befehle warten
+        if (hasArrived && !isWorking) {
+            item.classList.add('mission-needs-orders');
+        }
+
+        // Status Text Logik
+        let statusText = 'Wartet auf Kräfte';
+        if (isWorking) {
+            statusText = `In Arbeit (${Math.ceil(m.workTimeRemaining)}s)`;
+        } else if (hasArrived) {
+            statusText = `<span class="mission-needs-orders-text">Wartet auf Befehle!</span>`;
+        }
+
         item.style.padding = '8px';
         item.style.margin = '4px 0';
         item.style.background = '#222';
         item.style.borderRadius = '4px';
         item.style.cursor = 'pointer';
 
-        const isWorking = m.assignedVehicleIds.some(vid => {
-            const v = globalVehicles.find(x => x.id === vid);
-            return v && v.status === 'working';
-        });
-
         item.innerHTML = `
             <div style="font-weight:bold; color:#e74c3c;">🚨 ${m.name}</div>
-            <small>Status: ${isWorking ? `In Arbeit (${Math.ceil(m.workTimeRemaining)}s)` : 'Wartet auf Kräfte'}</small>
+            <small>Status: ${statusText}</small>
         `;
         item.onclick = () => {
             map.flyTo([m.lat, m.lng], 15);
@@ -628,15 +644,35 @@ function openDispatchModal(mId) {
 
     const assignedList = document.getElementById('dispatch-assigned-list');
     assignedList.innerHTML = '';
+    
+    // Check if any vehicles are waiting for orders
+    let hasArrivedVehicles = false;
+
     m.assignedVehicleIds.forEach(vid => {
         const v = globalVehicles.find(x => x.id === vid);
         if (v) {
             const st = stations.find(s => s.id === v.stId);
             const li = document.createElement('li');
-            li.innerText = `${getVehicleName(v, st)} (Status ${getFMS(v.status)})`;
+            
+            // Zeige an, ob das Fahrzeug arbeitet oder wartet
+            let activityText = "";
+            if (v.status === 'arrived') activityText = " - Wartet auf Befehl!";
+            if (v.status === 'working') activityText = ` - Führt aus: ${v.currentCommand || 'Arbeitet'}`;
+            
+            li.innerHTML = `${getVehicleName(v, st)} (Status ${getFMS(v.status)}) <b>${activityText}</b>`;
             assignedList.appendChild(li);
+
+            if (v.status === 'arrived') hasArrivedVehicles = true;
         }
     });
+
+    // NEU: Zeige das Kommando-Panel, wenn Fahrzeuge vor Ort sind und auf Befehle warten
+    const cmdPanel = document.getElementById('dispatch-command-panel');
+    if (hasArrivedVehicles) {
+        cmdPanel.style.display = 'block';
+    } else {
+        cmdPanel.style.display = 'none';
+    }
 
     const vList = document.getElementById('dispatch-vehicle-list');
     vList.innerHTML = '';
@@ -698,6 +734,30 @@ function sendVehicles() {
     }
 }
 
+// NEUE FUNKTION: Befehle an Fahrzeuge geben
+function issueCommand(cmdType) {
+    const m = missions.find(x => x.id === activeDispatchMissionId);
+    if (!m) return;
+
+    let commandedCount = 0;
+
+    m.assignedVehicleIds.forEach(vid => {
+        const v = globalVehicles.find(x => x.id === vid);
+        // Allen Fahrzeugen, die warten, den Befehl erteilen
+        if (v && v.status === 'arrived') {
+            v.status = 'working';
+            v.currentCommand = cmdType; // Speichere, was sie gerade tun
+            commandedCount++;
+        }
+    });
+
+    if (commandedCount > 0) {
+        showToast(`Befehl "${cmdType}" an ${commandedCount} Fahrzeug(e) erteilt. Arbeit beginnt!`);
+        openDispatchModal(m.id); // Modal refreshen, um Kommando-Box auszublenden
+        updateMissionsUI();      // Blinken in der Seitenleiste stoppen
+    }
+}
+
 // ==========================================
 // 11. SIMULATIONSLOGIK (VEHICLES & MISSIONS)
 // ==========================================
@@ -722,7 +782,16 @@ function updateVehicles(deltaMs) {
                 v.lng = destLng;
 
                 if (v.status === 'en_route_mission') {
-                    v.status = 'working';
+                    // NEU: Fahrzeug wartet nun auf Befehle
+                    v.status = 'arrived'; 
+                    const st = stations.find(s => s.id === v.stId);
+                    showToast(`🚨 ${getVehicleName(v, st)} ist am Einsatzort eingetroffen und wartet auf Befehle!`);
+                    updateMissionsUI(); // Sidebar aktualisieren
+                    
+                    // Modal aktualisieren falls es offen ist
+                    if (activeDispatchMissionId === v.targetMissionId) {
+                        openDispatchModal(activeDispatchMissionId);
+                    }
                 } else if (v.status === 'en_route_home') {
                     v.status = 'free';
                     if (v.marker) {
@@ -772,6 +841,7 @@ function updateMissions(deltaMs) {
                     if (v) {
                         v.status = 'en_route_home';
                         v.targetMissionId = null;
+                        v.currentCommand = null;
                     }
                 });
 
