@@ -111,7 +111,8 @@ const VEHICLES = {
     // BUNDESPOLIZEI
     'BP_FuStW': { name: 'BP-FuStW', bw_name: 'Streife', org: 'bpol', speed: 95, crew: 2, reqQual: null, price: 65000, upkeep: 160 },
     'BP_GefKw': { name: 'BP-GefKw', bw_name: 'GefKw', org: 'bpol', speed: 75, crew: 2, reqQual: null, price: 85000, upkeep: 160 },
-    'BP_WaWe': { name: 'BP-WaWe 10000', bw_name: 'WaWe', org: 'bpol', speed: 70, crew: 4, reqQual: null, price: 280000, upkeep: 350 }
+    'BP_WaWe': { name: 'BP-WaWe 10000', bw_name: 'WaWe', org: 'bpol', speed: 70, crew: 4, reqQual: null, price: 280000, upkeep: 350 },
+    'BP_DHF': { name: 'BP-DHF', bw_name: 'Streife', org: 'bpol', speed: 95, crew: 2, reqQual: null, price: 65000, upkeep: 160 }
 };
 
 const GROUPS = {
