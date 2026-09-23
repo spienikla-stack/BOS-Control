@@ -153,7 +153,7 @@ const MISSIONS = [
     { name: 'Ruhestörung / Nachbarschaftsstreit', minXp: 0, reqs: { 'FuStW': 1 }, time: 15, orgs: ['pol'], reward: 750, xpReward: 15 },
         // BUNDESPOLIZEI
     { name: 'Fahrkartenkontrolle eskaliert', minXp: 0, reqs: { 'BP_FuStW': 1 }, time: 18, orgs: ['bpol'], reward: 850, xpReward: 15 },
-    { name: 'Fahrkartenkontrolle am HBF', minXp: 0, reqs: { 'BP_FuStW': 1, 'BP_DHF_Group': 1, }, time: 18, orgs: ['bpol'], reward: 850, xpReward: 15 },
+    { name: 'Person auf Gleis', minXp: 200, reqs: { 'BP_FuStW': 1, 'BP_DHF': 1 }, time: 25, orgs: ['fw'], reward: 1800, xpReward: 35 },
     // --- STUFE 2: FORTGESCHRITTEN (200 - 800 XP) ---
         // FEUERWEHR
     { name: 'Containerbrand am Gebäude', minXp: 200, reqs: { 'LF_Group': 2 }, time: 25, orgs: ['fw'], reward: 1500, xpReward: 30 },
