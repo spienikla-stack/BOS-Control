@@ -145,9 +145,9 @@ const MISSIONS = [
     // --- STUFE 1: EINSTEIGER / BASIS (0 - 200 XP) ---
         // FEUERWEHR
     { name: 'Brennt Mülleimer', minXp: 0, reqs: { 'LF_Group': 1 }, time: 15, orgs: ['fw'], reward: 650, xpReward: 10 },
-    { name: 'Rauchentwicklung aus Pkw', minXp: 0, reqs: { 'LF_Group': 1 'FUSTW: 1 }, time: 15, orgs: ['fw'], reward: 650, xpReward: 10 },
-    { name: 'Papiercontainer brennt', minXp: 0, reqs: { 'LF_Group': 1 'FUSTW: 1 }, time: 15, orgs: ['fw'], reward: 650, xpReward: 10 },
-    { name: 'Heckenbrand', minXp: 0, reqs: { 'LF_Group': 1 'FUSTW: 1 }, time: 15, orgs: ['fw'], reward: 650, xpReward: 10 },
+    { name: 'Rauchentwicklung aus Pkw', minXp: 0, reqs: { 'LF_Group': 1 'FUSTW: 1 }, time: 15, orgs: [fwPol'], reward: 650, xpReward: 10 },
+    { name: 'Papiercontainer brennt', minXp: 0, reqs: { 'LF_Group': 1 'FUSTW: 1 }, time: 15, orgs: [fw'], reward: 650, xpReward: 10 },
+    { name: 'Heckenbrand', minXp: 0, reqs: { 'LF_Group': 1 'FUSTW: 1 }, time: 15, orgs: [fw'], reward: 650, xpReward: 10 },
     { name: 'Ölspur klein', minXp: 0, reqs: { 'LF_Group': 1 }, time: 20, orgs: ['fw'], reward: 800, xpReward: 15 },
         // RETTUNGSDIENST
     { name: 'Akute Atemnot', minXp: 0, reqs: { 'RTW_Group': 1 }, time: 20, orgs: ['rd'], reward: 1100, xpReward: 20 },
